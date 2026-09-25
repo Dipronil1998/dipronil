@@ -16,6 +16,8 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
 
@@ -24,6 +26,7 @@ export default function Contact() {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    if (errorMessage) setErrorMessage('');
   };
 
   const handleCopyEmail = () => {
@@ -45,13 +48,12 @@ export default function Contact() {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
+    setErrorMessage('');
 
     try {
-      await submitContactMessage(formData);
-    } catch (err) {
-      console.log('Contact form local fallback:', err);
-    } finally {
-      setIsSubmitting(false);
+      const result = await submitContactMessage(formData);
+      const successMsg = result?.message || "Thank you for reaching out! Your message has been sent successfully. I will get back to you soon.";
+      setFeedbackMessage(successMsg);
       setIsSubmitted(true);
 
       // Trigger celebratory confetti effect
@@ -66,11 +68,21 @@ export default function Contact() {
         // Confetti fallback
       }
 
-      // Reset after a delay
+      // Reset form
+      setFormData({ name: '', email: '', subject: '', message: '' });
+
+      // Automatically reset success view after 7 seconds
       setTimeout(() => {
         setIsSubmitted(false);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 5000);
+        setFeedbackMessage('');
+      }, 7000);
+    } catch (err) {
+      console.error('[Contact Form] Submission error:', err);
+      setErrorMessage(
+        err?.message || 'Could not send message. Please ensure all fields are valid or reach out directly via email.'
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -242,17 +254,34 @@ export default function Contact() {
               
               {isSubmitted ? (
                 <div className="py-12 text-center space-y-4 animate-in fade-in zoom-in-95 duration-300">
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30 shadow-lg shadow-emerald-500/20">
                     <Check className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white">Thank You!</h3>
-                  <p className="text-slate-300 text-sm sm:text-base max-w-md mx-auto">
-                    Your message has been sent successfully. I will get back to you as soon as possible!
+                  <h3 className="text-2xl font-bold text-white">Message Sent Successfully!</h3>
+                  <p className="text-slate-300 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+                    {feedbackMessage || "Thank you for reaching out! Your message has been sent successfully. I will get back to you soon."}
                   </p>
+                  <div className="pt-2">
+                    <button
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFeedbackMessage('');
+                      }}
+                      className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-900 text-cyan-300 hover:text-white border border-slate-700 hover:border-cyan-500/40 transition-colors cursor-pointer"
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <h3 className="text-xl font-bold text-white mb-2">Send a Direct Message</h3>
+
+                  {errorMessage && (
+                    <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm">
+                      {errorMessage}
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-2">

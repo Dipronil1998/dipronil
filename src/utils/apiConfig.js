@@ -69,6 +69,15 @@ export const getResumeDownloadUrl = () => {
 };
 
 /**
+ * Constructs the mail send contact message endpoint URL
+ * @returns {string} e.g. 'http://localhost:3000/mailsend'
+ */
+export const getMailSendUrl = () => {
+  const host = getBackendHostUrl().replace(/\/$/, '');
+  return `${host}/mailsend`;
+};
+
+/**
  * Configuration summary object for debugging / logging
  */
 export const apiConfig = {
@@ -76,6 +85,7 @@ export const apiConfig = {
   baseUrl: getApiBaseUrl(),
   hostUrl: getBackendHostUrl(),
   resumeUrl: getResumeDownloadUrl(),
+  mailUrl: getMailSendUrl(),
   localUrl: import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL,
   hostedUrl: import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL,
 };

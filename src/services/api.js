@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { portfolioData } from '../data/portfolioData';
-import { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl } from '../utils/apiConfig';
+import { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl } from '../utils/apiConfig';
 
 // Re-export helpers
-export { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl };
+export { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl };
 
 // Create configured Axios instance
 export const apiClient = axios.create({
@@ -450,16 +450,55 @@ export const fetchCertificates = async () => {
 };
 
 /**
- * Submit contact form message to Backend API (/api/message or /api/contact)
+ * Submit contact form message to Backend API endpoint (/mailsend)
+ * 
+ * Method: POST
+ * Endpoint: /mailsend (e.g. http://localhost:3000/mailsend)
+ * Payload:
+ * {
+ *   name: "Alex Johnson",
+ *   email: "alex@company.com",
+ *   subject: "Full Stack Engineer Job Opportunity",
+ *   message: "Hi Dipronil, I came across your portfolio and would like to discuss an exciting role."
+ * }
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   message: "Thank you for reaching out! Your message has been sent successfully. I will get back to you soon.",
+ *   data: { _id, name, email, subject, message, time }
+ * }
  */
 export const submitContactMessage = async (contactData) => {
+  const url = getMailSendUrl();
+  console.log(`[Contact API] Submitting contact message to: ${url}`, contactData);
+
+  const payload = {
+    name: (contactData.name || contactData.Name || '').trim(),
+    email: (contactData.email || contactData.Email || '').trim(),
+    subject: (contactData.subject || contactData.Subject || 'Portfolio Contact Inquiry').trim(),
+    message: (contactData.message || contactData.Message || '').trim(),
+  };
+
   try {
-    const response = await apiClient.post('/message', contactData);
+    const response = await axios.post(url, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 12000,
+    });
+
+    console.log('[Contact API] Success response received:', response.data);
     return response.data;
   } catch (error) {
-    // Try fallback endpoint /contact if /message is not used
-    const fallbackResponse = await apiClient.post('/contact', contactData);
-    return fallbackResponse.data;
+    console.warn(`[Contact API] Primary ${url} failed. Trying fallback endpoint:`, error?.message);
+    try {
+      const fallbackResp = await apiClient.post('/mailsend', payload);
+      return fallbackResp.data;
+    } catch (fallbackErr) {
+      console.error('[Contact API] All contact endpoints failed:', fallbackErr?.message || error?.message);
+      throw (error.response?.data || error);
+    }
   }
 };
 
