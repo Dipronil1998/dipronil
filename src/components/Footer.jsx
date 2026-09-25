@@ -44,12 +44,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/projects" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
-                  Projects Catalog (All 18+)
+                  Projects Catalog
                 </Link>
               </li>
               <li>
                 <Link to="/blogs" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
-                  Technical Blogs (All)
+                  Technical Blogs
                 </Link>
               </li>
               <li>
