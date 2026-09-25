@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Dipronil Das - Portfolio
 
-## Getting Started
+A modern, responsive, and high-performance developer portfolio built with **React**, **JSX**, **Vite**, and **Tailwind CSS**.
 
-First, run the development server:
+## ✨ Features
 
+- ⚡ **Built with Vite 6 & React 19**: Lightning-fast HMR and build times.
+- 🎨 **Tailwind CSS v4 & Glassmorphic Design**: Modern dark theme with glowing ambient gradients and micro-interactions.
+- 📱 **Fully Responsive**: Flawless experience across desktop, tablet, and mobile screens.
+- 💼 **Showcase Sections**:
+  - **Hero**: Animated role cycler, dynamic code config preview, quick tech pills, and stats counter.
+  - **About Me**: Professional story, key engineering pillars, and quick facts.
+  - **Skills & Tech Stack**: Interactive categorized tabs (Frontend, Backend, Databases/Cloud, Tools) with visual progress meters.
+  - **Projects Showcase**: Filterable project gallery with detailed modal previews, live links, and GitHub links.
+  - **Experience & Education**: Timeline with work milestones, key achievements, and testimonials.
+  - **Interactive Contact Form**: Direct form with validation, celebratory confetti on send, and one-click copy email.
+- 🔍 **SEO & Accessibility**: Clean semantic HTML, Google Fonts, and meta tags.
+
+## 🛠️ Getting Started
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Start Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Build for Production
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
 
-## Learn More
+```
+├── index.html               # HTML entry point with Google Fonts & metadata
+├── package.json             # Scripts & dependencies
+├── vite.config.js           # Vite configuration with React & Tailwind plugins
+└── src/
+    ├── main.jsx             # React entry point
+    ├── App.jsx              # Main App layout
+    ├── index.css            # Tailwind CSS & global styles
+    ├── data/
+    │   └── portfolioData.js # All portfolio content & projects data
+    └── components/
+        ├── Navbar.jsx       # Glassmorphism header with active link tracker
+        ├── Hero.jsx         # Hero with role rotator & interactive code block
+        ├── About.jsx        # Story & engineering pillars
+        ├── Skills.jsx       # Categorized skill meters
+        ├── Projects.jsx     # Filterable project gallery
+        ├── ProjectModal.jsx # Detailed modal for project view
+        ├── Experience.jsx   # Career & education timeline
+        ├── Contact.jsx      # Contact form with confetti & direct contact info
+        └── Footer.jsx       # Footer with back-to-top & social links
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+MIT © Dipronil Das
