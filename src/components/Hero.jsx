@@ -39,10 +39,10 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Main Hero Content */}
           <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-            
+
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-900/80 border border-slate-700/60 backdrop-blur-md shadow-inner text-xs sm:text-sm font-medium text-slate-300">
               <span className="relative flex h-2.5 w-2.5">
@@ -65,9 +65,8 @@ export default function Hero() {
                 <span className="text-xl sm:text-3xl font-semibold text-slate-300">
                   I build{' '}
                   <span
-                    className={`text-gradient font-bold transition-opacity duration-300 ${
-                      fadeState === 'fade-in' ? 'opacity-100' : 'opacity-0'
-                    }`}
+                    className={`text-gradient font-bold transition-opacity duration-300 ${fadeState === 'fade-in' ? 'opacity-100' : 'opacity-0'
+                      }`}
                   >
                     {personal.roles?.[currentRoleIndex] || personal.title}
                   </span>
@@ -110,7 +109,7 @@ export default function Hero() {
             {/* Tech Pill highlights */}
             <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs font-mono text-slate-400">
               <span className="text-slate-400 mr-2">Core Tech:</span>
-              {['React (JSX)', 'Vite', 'Tailwind CSS', 'JavaScript ES6+', 'Node.js', 'PostgreSQL'].map((tech) => (
+              {['React (JSX)', 'Vite', 'Tailwind CSS', 'JavaScript ES6+', 'Node.js', 'MySQL'].map((tech) => (
                 <span
                   key={tech}
                   className="px-2.5 py-1 rounded-md bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-cyan-500/40 hover:text-cyan-300 transition-colors"
