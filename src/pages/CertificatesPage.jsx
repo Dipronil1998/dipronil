@@ -104,6 +104,7 @@ export default function CertificatesPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+
   return (
     <div className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-[#080c14] text-slate-100">
       {/* Background Lighting Effects */}
@@ -201,8 +202,8 @@ export default function CertificatesPage() {
                     key={issuer}
                     onClick={() => setSelectedIssuer(issuer)}
                     className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${isActive
-                        ? 'bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-cyan-500/20'
-                        : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
+                      ? 'bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-cyan-500/20'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
                       }`}
                   >
                     {issuer === 'All' ? 'All Issuers' : issuer}
