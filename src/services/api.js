@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { portfolioData } from '../data/portfolioData';
-import { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl } from '../utils/apiConfig';
+import { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl, getChatbotMessageUrl } from '../utils/apiConfig';
 
 // Re-export helpers
-export { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl };
+export { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl, getMailSendUrl, getChatbotMessageUrl };
 
 // Create configured Axios instance
 export const apiClient = axios.create({
@@ -548,5 +548,62 @@ export const downloadResumeFile = async () => {
     link.remove();
 
     return { success: true, url: downloadUrl, fallback: true };
+  }
+};
+
+/**
+ * Sends messages to AI Portfolio Assistant endpoint (/chatbot/message)
+ * 
+ * Method: POST
+ * Endpoint: /chatbot/message (e.g. http://localhost:3000/chatbot/message)
+ * Payload:
+ * {
+ *   "messages": [
+ *     { "role": "user", "content": "What are Dipronil's main backend skills and experience?" }
+ *   ]
+ * }
+ * Response:
+ * {
+ *   "success": true,
+ *   "reply": "Dipronil Das is a Full Stack Developer..."
+ * }
+ */
+export const sendChatbotMessage = async (messages) => {
+  const url = getChatbotMessageUrl();
+  console.log(`[Chatbot API] Sending message array to: ${url}`);
+
+  // Format array to OpenAI schema [{ role, content }]
+  const formattedMessages = Array.isArray(messages)
+    ? messages
+        .filter((m) => m && (m.content || m.text))
+        .map((m) => ({
+          role: m.role || (m.sender === 'user' ? 'user' : 'assistant'),
+          content: m.content || m.text || '',
+        }))
+    : [{ role: 'user', content: String(messages) }];
+
+  try {
+    const response = await axios.post(
+      url,
+      { messages: formattedMessages },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 30000,
+      }
+    );
+
+    console.log('[Chatbot API] Response received:', response.data);
+    if (response.data && response.data.reply) {
+      return {
+        success: true,
+        reply: response.data.reply,
+      };
+    }
+    return response.data;
+  } catch (error) {
+    console.warn(`[Chatbot API] Request to ${url} failed:`, error?.message);
+    throw (error.response?.data || error);
   }
 };

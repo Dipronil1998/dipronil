@@ -22,7 +22,7 @@ import {
   FolderGit2
 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
-import { downloadResumeFile } from '../services/api';
+import { downloadResumeFile, sendChatbotMessage } from '../services/api';
 
 const QUICK_PROMPTS = [
   {
@@ -63,6 +63,38 @@ const QUICK_PROMPTS = [
   },
 ];
 
+// Helper to detect contextual action links from AI response text
+const detectContextualLinks = (text = '') => {
+  const lower = text.toLowerCase();
+  const links = [];
+
+  if (lower.includes('cv') || lower.includes('resume') || lower.includes('curriculum')) {
+    links.push({ label: 'Download CV (PDF)', action: 'download_cv', icon: Download });
+  }
+
+  if (lower.includes('project') || lower.includes('check-valet') || lower.includes('crazyloom') || lower.includes('rag') || lower.includes('ecommerce')) {
+    links.push({ label: 'Explore All 18+ Projects', href: '/projects', isRoute: true });
+  }
+
+  if (lower.includes('contact') || lower.includes('hire') || lower.includes('reach out') || lower.includes('email') || lower.includes('inbox')) {
+    links.push({ label: 'Open Contact Form', href: '/#contact', isSection: true });
+  }
+
+  if (lower.includes('certificat') || lower.includes('coursera') || lower.includes('udemy')) {
+    links.push({ label: 'View Certifications', href: '/certificates', isRoute: true });
+  }
+
+  if (lower.includes('blog') || lower.includes('article') || lower.includes('medium')) {
+    links.push({ label: 'Read Technical Blogs', href: '/blogs', isRoute: true });
+  }
+
+  if (links.length === 0 && (lower.includes('skill') || lower.includes('stack') || lower.includes('framework'))) {
+    links.push({ label: 'Explore Skills Matrix', href: '/#skills', isSection: true });
+  }
+
+  return links;
+};
+
 export default function Chatbot() {
   const { personal = {}, stats = [], projects = [], certificates = [], mediumPosts = [] } = usePortfolio();
   const navigate = useNavigate();
@@ -75,7 +107,8 @@ export default function Chatbot() {
   const initialWelcome = {
     id: 'msg-welcome',
     sender: 'bot',
-    text: `👋 Hi there! I'm **Dipronil's AI Assistant**. I can answer questions about his experience, technical skills, engineering projects, blogs, or help you download his CV.`,
+    role: 'assistant',
+    text: `👋 Hi there! I'm **Dipronil's AI Assistant**. Ask me anything about his technical stack, engineering projects, experience, blogs, or download his CV.`,
     options: [
       { text: '💼 View Experience', action: 'ask_experience' },
       { text: '🚀 Explore Projects', action: 'ask_projects' },
@@ -100,25 +133,20 @@ export default function Chatbot() {
     }
   }, [isOpen, messages, isTyping]);
 
-  // Generate intelligent response based on input query
+  // Fallback response engine if offline
   const generateBotReply = (query) => {
     const q = query.toLowerCase();
 
-    // 1. Resume / CV
     if (q.includes('resume') || q.includes('cv') || q.includes('curriculum') || q.includes('download')) {
       return {
-        text: `📄 You can download **Dipronil Das's latest CV / Resume (PDF)** directly. It includes his 5+ years of full stack engineering experience, major production projects, and verified credentials.`,
-        actionType: 'resume_download',
-        links: [
-          { label: 'Download CV (PDF)', action: 'download_cv', icon: Download },
-        ],
+        text: `📄 You can download **Dipronil Das's latest CV / Resume (PDF)** directly. It includes his 5+ years of full stack engineering experience, production projects, and verified credentials.`,
+        links: [{ label: 'Download CV (PDF)', action: 'download_cv', icon: Download }],
       };
     }
 
-    // 2. Experience / Background
     if (q.includes('experience') || q.includes('background') || q.includes('work') || q.includes('company') || q.includes('role') || q.includes('years')) {
       return {
-        text: `💼 **Dipronil Das** has over **5+ years of software engineering experience** developing scalable full stack web applications, high-throughput microservices, REST APIs, and modern React interfaces. He is currently based in Kolkata, India and available for full-time opportunities.`,
+        text: `💼 **Dipronil Das** has over **5+ years of software engineering experience** developing scalable full stack web applications, high-throughput microservices, REST APIs, and modern React interfaces. He is currently based in Kolkata, India and available for full-time roles.`,
         links: [
           { label: 'View Experience Section', href: '/#experience', isSection: true },
           { label: 'Let’s Talk / Hire', href: '/#contact', isSection: true },
@@ -126,7 +154,6 @@ export default function Chatbot() {
       };
     }
 
-    // 3. Skills / Tech Stack
     if (q.includes('skill') || q.includes('tech') || q.includes('stack') || q.includes('react') || q.includes('node') || q.includes('javascript') || q.includes('python') || q.includes('sql') || q.includes('docker')) {
       return {
         text: `⚡ **Dipronil's Core Tech Stack:**\n\n• **Frontend:** React 19, Vite, Tailwind CSS, JavaScript (ES6+), HTML5/CSS3\n• **Backend:** Node.js, Express.js, RESTful APIs, Microservices, Python\n• **Databases:** MySQL, MongoDB, PostgreSQL, Redis, Qdrant\n• **DevOps & Cloud:** Docker, Linux, Nginx, Git, CI/CD`,
@@ -137,49 +164,27 @@ export default function Chatbot() {
       };
     }
 
-    // 4. Projects
     if (q.includes('project') || q.includes('portfolio') || q.includes('work') || q.includes('app') || q.includes('valet') || q.includes('rag') || q.includes('ecommerce')) {
-      const topProjects = projects.slice(0, 3).map((p) => p.title).join(', ') || 'check-valet, Multi-Vendor Baby Products, RAG AI System';
       return {
         text: `🚀 Dipronil has engineered **18+ production-ready systems**, including:\n\n• **check-valet**: Smart real-time valet parking SaaS\n• **Multi-Vendor E-Commerce**: Scalable online store\n• **RAG AI System**: Vector search & document retrieval platform\n• **AI SQL Assistant**: Natural language to SQL compiler`,
-        links: [
-          { label: 'View All 18+ Projects', href: '/projects', isRoute: true },
-        ],
+        links: [{ label: 'View All 18+ Projects', href: '/projects', isRoute: true }],
       };
     }
 
-    // 5. Contact / Hire / Email
     if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('message')) {
       return {
         text: `📬 **Get in touch with Dipronil:**\n\n• **Email:** ${personal.email || 'dipronildas.net@gmail.com'}\n• **Phone:** ${personal.phone || '+919804633142'}\n• **Location:** ${personal.location || 'Kolkata, India'}\n• **Status:** ${personal.availability || 'Available for Full-time Roles'}\n\nYou can also send a direct message via the portfolio contact form!`,
-        links: [
-          { label: 'Open Contact Form', href: '/#contact', isSection: true },
-        ],
+        links: [{ label: 'Open Contact Form', href: '/#contact', isSection: true }],
       };
     }
 
-    // 6. Certifications
     if (q.includes('cert') || q.includes('certificate') || q.includes('coursera') || q.includes('udemy') || q.includes('credential')) {
       return {
         text: `🎓 Dipronil holds **verified certifications** including:\n\n• **Node.js 3rd Edition** (Udemy)\n• **MERN Stack 2024** (Udemy)\n• **Angular & Node.js MEAN Stack** (Udemy)\n• **Python for Everybody Specialization** (Coursera / Univ. of Michigan)`,
-        links: [
-          { label: 'View All Certificates', href: '/certificates', isRoute: true },
-        ],
+        links: [{ label: 'View All Certificates', href: '/certificates', isRoute: true }],
       };
     }
 
-    // 7. Blogs / Articles
-    if (q.includes('blog') || q.includes('article') || q.includes('medium') || q.includes('writing') || q.includes('read')) {
-      return {
-        text: `✍️ Dipronil regularly publishes technical in-depth articles on Medium covering **System Design, Rate Limiting (Token Bucket), Database Optimization, and Microservices**.`,
-        links: [
-          { label: 'Explore Technical Blogs', href: '/blogs', isRoute: true },
-          { label: 'Medium Profile', href: personal.medium || 'https://medium.com/@dipronildas.net', external: true },
-        ],
-      };
-    }
-
-    // Default Fallback
     return {
       text: `Thanks for asking! As Dipronil's assistant, I can guide you through his **projects**, **tech skills**, **work experience**, **certifications**, or provide his **contact info** & **resume**. What would you like to explore?`,
       options: [
@@ -191,36 +196,73 @@ export default function Chatbot() {
     };
   };
 
-  const handleSendMessage = (textToSend) => {
+  // Main send handler connecting to backend POST /chatbot/message
+  const handleSendMessage = async (textToSend) => {
     const query = (textToSend || inputMessage).trim();
-    if (!query) return;
+    if (!query || isTyping) return;
 
-    // Add user message
+    // Add user message to UI
     const userMsg = {
       id: `msg-${Date.now()}`,
       sender: 'user',
+      role: 'user',
       text: query,
+      content: query,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate natural AI thinking delay
-    setTimeout(() => {
-      const reply = generateBotReply(query);
+    try {
+      // Format full conversation history for OpenAI payload: [{ role, content }]
+      const conversationHistory = newMessages
+        .filter((m) => m.id !== 'msg-welcome')
+        .map((m) => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text || m.content || '',
+        }));
+
+      // Call live backend API: POST /chatbot/message
+      const apiResponse = await sendChatbotMessage(conversationHistory);
+
+      if (apiResponse && apiResponse.reply) {
+        const replyText = apiResponse.reply;
+        const autoLinks = detectContextualLinks(replyText);
+
+        const botMsg = {
+          id: `msg-reply-${Date.now()}`,
+          sender: 'bot',
+          role: 'assistant',
+          text: replyText,
+          content: replyText,
+          links: autoLinks.length > 0 ? autoLinks : undefined,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+
+        setMessages((prev) => [...prev, botMsg]);
+      } else {
+        throw new Error('No reply from AI service');
+      }
+    } catch (error) {
+      console.warn('[Chatbot API] Falling back to smart response engine:', error?.message);
+      const fallbackReply = generateBotReply(query);
       const botMsg = {
         id: `msg-reply-${Date.now()}`,
         sender: 'bot',
-        text: reply.text,
-        links: reply.links,
-        options: reply.options,
+        role: 'assistant',
+        text: fallbackReply.text,
+        content: fallbackReply.text,
+        links: fallbackReply.links,
+        options: fallbackReply.options,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, botMsg]);
+    } finally {
       setIsTyping(false);
-    }, 600);
+    }
   };
 
   const handleOptionClick = (action) => {

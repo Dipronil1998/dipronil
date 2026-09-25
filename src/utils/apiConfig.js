@@ -78,6 +78,15 @@ export const getMailSendUrl = () => {
 };
 
 /**
+ * Constructs the AI chatbot message endpoint URL
+ * @returns {string} e.g. 'http://localhost:3000/chatbot/message'
+ */
+export const getChatbotMessageUrl = () => {
+  const host = getBackendHostUrl().replace(/\/$/, '');
+  return `${host}/chatbot/message`;
+};
+
+/**
  * Configuration summary object for debugging / logging
  */
 export const apiConfig = {
@@ -86,6 +95,7 @@ export const apiConfig = {
   hostUrl: getBackendHostUrl(),
   resumeUrl: getResumeDownloadUrl(),
   mailUrl: getMailSendUrl(),
+  chatbotUrl: getChatbotMessageUrl(),
   localUrl: import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL,
   hostedUrl: import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL,
 };
