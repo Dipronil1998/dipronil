@@ -77,7 +77,7 @@ export const getMailSendUrl = () => {
  */
 export const getChatbotMessageUrl = () => {
   const host = getBackendHostUrl().replace(/\/$/, '');
-  return `${host}/chatbot/message`;
+  return `${host}/api/chatbot/message`;
 };
 
 /**
