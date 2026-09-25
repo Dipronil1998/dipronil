@@ -59,20 +59,16 @@ export default function Navbar() {
 
   const handleNavClick = (link, e) => {
     setMobileMenuOpen(false);
-    if (link.isRoute) {
-      navigate(link.href);
+
+    if (link.isRoute || isInnerPage) {
+      // Standard SPA route transition handled by React Router Link
       return;
     }
 
-    if (isInnerPage) {
-      navigate(link.href);
-      return;
-    }
-
-    // Scroll to section on home page
+    // On home page: smooth scroll to section without route reload
+    e.preventDefault();
     const el = document.getElementById(link.hash);
     if (el) {
-      e.preventDefault();
       el.scrollIntoView({ behavior: 'smooth' });
       setActiveSection(link.hash);
     }
@@ -114,9 +110,9 @@ export default function Navbar() {
               : !isInnerPage && activeSection === link.hash;
 
             return (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 onClick={(e) => handleNavClick(link, e)}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   isActive
@@ -125,7 +121,7 @@ export default function Navbar() {
                 }`}
               >
                 {link.name}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -161,8 +157,8 @@ export default function Navbar() {
               <Medium className="w-5 h-5" />
             </a>
           )}
-          <a
-            href="/#contact"
+          <Link
+            to="/#contact"
             onClick={(e) => {
               if (!isInnerPage) {
                 e.preventDefault();
@@ -173,7 +169,7 @@ export default function Navbar() {
           >
             <span>Let's Talk</span>
             <ArrowUpRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -196,9 +192,9 @@ export default function Navbar() {
                 : !isInnerPage && activeSection === link.hash;
 
               return (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   onClick={(e) => handleNavClick(link, e)}
                   className={`px-4 py-2.5 rounded-xl text-base font-medium transition-colors ${
                     isActive
@@ -207,7 +203,7 @@ export default function Navbar() {
                   }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               );
             })}
           </nav>
@@ -246,8 +242,8 @@ export default function Navbar() {
                 <Mail className="w-5 h-5" />
               </a>
             </div>
-            <a
-              href="/#contact"
+            <Link
+              to="/#contact"
               onClick={(e) => {
                 setMobileMenuOpen(false);
                 if (!isInnerPage) {
@@ -259,7 +255,7 @@ export default function Navbar() {
             >
               <span>Get in touch</span>
               <ArrowUpRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       )}

@@ -37,10 +37,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
-                <a href="/#about" className="hover:text-cyan-400 transition-colors">About Me</a>
+                <Link to="/#about" className="hover:text-cyan-400 transition-colors">About Me</Link>
               </li>
               <li>
-                <a href="/#skills" className="hover:text-cyan-400 transition-colors">Skills & Stack</a>
+                <Link to="/#skills" className="hover:text-cyan-400 transition-colors">Skills & Stack</Link>
               </li>
               <li>
                 <Link to="/projects" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
@@ -53,7 +53,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="/#experience" className="hover:text-cyan-400 transition-colors">Experience & Education</a>
+                <Link to="/#experience" className="hover:text-cyan-400 transition-colors">Experience & Education</Link>
               </li>
               <li>
                 <Link to="/certificates" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
@@ -61,7 +61,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="/#contact" className="hover:text-cyan-400 transition-colors">Contact</a>
+                <Link to="/#contact" className="hover:text-cyan-400 transition-colors">Contact</Link>
               </li>
             </ul>
           </div>

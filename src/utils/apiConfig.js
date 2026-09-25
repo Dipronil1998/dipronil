@@ -51,11 +51,31 @@ export const buildApiUrl = (endpoint = '') => {
 };
 
 /**
+ * Helper function to retrieve the Backend Host URL without '/api'
+ * @returns {string} e.g. 'http://localhost:3000'
+ */
+export const getBackendHostUrl = () => {
+  const apiUrl = getApiBaseUrl() || DEFAULT_LOCAL_URL;
+  return apiUrl.replace(/\/api\/?$/, '');
+};
+
+/**
+ * Constructs the resume CV download file URL
+ * @returns {string} e.g. 'http://localhost:3000/downloadcv/file'
+ */
+export const getResumeDownloadUrl = () => {
+  const host = getBackendHostUrl().replace(/\/$/, '');
+  return `${host}/downloadcv/file`;
+};
+
+/**
  * Configuration summary object for debugging / logging
  */
 export const apiConfig = {
   isLocal: isLocalhost(),
   baseUrl: getApiBaseUrl(),
+  hostUrl: getBackendHostUrl(),
+  resumeUrl: getResumeDownloadUrl(),
   localUrl: import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL,
   hostedUrl: import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL,
 };

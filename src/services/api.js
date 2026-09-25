@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { portfolioData } from '../data/portfolioData';
-import { getApiBaseUrl, isLocalhost, buildApiUrl } from '../utils/apiConfig';
+import { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl } from '../utils/apiConfig';
 
 // Re-export helpers
-export { getApiBaseUrl, isLocalhost, buildApiUrl };
+export { getApiBaseUrl, isLocalhost, buildApiUrl, getBackendHostUrl, getResumeDownloadUrl };
 
 // Create configured Axios instance
 export const apiClient = axios.create({
@@ -319,6 +319,7 @@ export const fetchHomeData = async () => {
           ...portfolioData.personal,
           name: data.title || portfolioData.personal.name,
           age: data.age || portfolioData.personal.age,
+          resumeUrl: getResumeDownloadUrl(),
         },
         stats: normalizedStats,
         projects: normalizedProjects,
@@ -459,5 +460,54 @@ export const submitContactMessage = async (contactData) => {
     // Try fallback endpoint /contact if /message is not used
     const fallbackResponse = await apiClient.post('/contact', contactData);
     return fallbackResponse.data;
+  }
+};
+
+/**
+ * Downloads CV / Resume PDF from the backend endpoint: /downloadcv/file
+ * (e.g. http://localhost:3000/downloadcv/file)
+ */
+export const downloadResumeFile = async () => {
+  const downloadUrl = getResumeDownloadUrl();
+  console.log(`[Resume API] Downloading CV from: ${downloadUrl}`);
+
+  try {
+    const response = await axios.get(downloadUrl, {
+      responseType: 'blob',
+      timeout: 15000,
+    });
+
+    // Create a blob URL from the received PDF data
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    // Create temporary link and trigger browser download
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.setAttribute('download', 'Dipronil_Das_CV.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // Clean up memory
+    setTimeout(() => {
+      window.URL.revokeObjectURL(blobUrl);
+    }, 1000);
+
+    return { success: true, url: downloadUrl };
+  } catch (error) {
+    console.warn('[Resume API] Direct blob download failed, attempting direct link download:', error);
+    
+    // Fallback: direct window download trigger
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('download', 'Dipronil_Das_CV.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return { success: true, url: downloadUrl, fallback: true };
   }
 };

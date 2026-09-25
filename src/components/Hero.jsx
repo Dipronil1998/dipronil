@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Download, Sparkles, FolderGit2, Briefcase, Cpu, Smile, Terminal, CheckCircle } from 'lucide-react';
+import { ArrowRight, Download, Sparkles, FolderGit2, Briefcase, Cpu, Smile, Terminal, CheckCircle, Loader2 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
+import { downloadResumeFile, getResumeDownloadUrl } from '../services/api';
 
 const iconMap = {
   Briefcase: Briefcase,
@@ -13,6 +14,23 @@ export default function Hero() {
   const { personal, stats, isFromBackend } = usePortfolio();
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [fadeState, setFadeState] = useState('fade-in');
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadCV = async (e) => {
+    e.preventDefault();
+    if (isDownloading) return;
+    setIsDownloading(true);
+
+    try {
+      await downloadResumeFile();
+    } catch (err) {
+      console.error('[Download CV Error]', err);
+    } finally {
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 1500);
+    }
+  };
 
   useEffect(() => {
     if (!personal?.roles?.length) return;
@@ -83,6 +101,10 @@ export default function Hero() {
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <a
                 href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>View Projects</span>
@@ -91,19 +113,30 @@ export default function Hero() {
 
               <a
                 href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-slate-200 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Sparkles className="w-4 h-4 text-cyan-400" />
                 <span>Contact Me</span>
               </a>
 
-              <a
-                href={personal.resumeUrl}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 border border-transparent hover:border-slate-700 transition-all"
+              <button
+                onClick={handleDownloadCV}
+                disabled={isDownloading}
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-700/80 hover:border-cyan-500/50 transition-all cursor-pointer disabled:opacity-75 shadow-sm active:scale-95"
+                title="Download Dipronil Das Resume / CV (PDF)"
+                aria-label="Download CV"
               >
-                <Download className="w-4 h-4" />
-                <span>Resume</span>
-              </a>
+                {isDownloading ? (
+                  <Loader2 className="w-4 h-4 text-cyan-400 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4 text-cyan-400" />
+                )}
+                <span>{isDownloading ? 'Downloading CV...' : 'Download CV'}</span>
+              </button>
             </div>
 
             {/* Tech Pill highlights */}

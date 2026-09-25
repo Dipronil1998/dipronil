@@ -1,6 +1,7 @@
 import React from 'react';
-import { Sparkles, Code2, Server, Gauge, ShieldCheck, CheckCircle2, MapPin, Mail, Calendar, Award } from 'lucide-react';
+import { Sparkles, Code2, Server, Gauge, ShieldCheck, CheckCircle2, MapPin, Mail, Calendar, Award, Download } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
+import { downloadResumeFile } from '../services/api';
 
 const highlightIcons = [Code2, Server, Gauge, ShieldCheck];
 
@@ -84,6 +85,19 @@ export default function About() {
                     <div className="font-semibold text-white">React & Node Stack</div>
                   </div>
                 </div>
+              </div>
+
+              {/* Download CV CTA */}
+              <div className="pt-2">
+                <button
+                  onClick={async () => {
+                    await downloadResumeFile();
+                  }}
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 hover:from-cyan-500/30 hover:to-indigo-500/30 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 transition-all cursor-pointer shadow-sm active:scale-98"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Curriculum Vitae (PDF)</span>
+                </button>
               </div>
             </div>
           </div>
