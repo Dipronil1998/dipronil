@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Mail, Code2, ArrowUpRight } from 'lucide-react';
-import { Github, Linkedin } from './Icons';
+import { Github, Linkedin, Medium } from './Icons';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Navbar() {
@@ -12,7 +12,9 @@ export default function Navbar() {
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Articles', href: '#articles' },
     { name: 'Experience', href: '#experience' },
+    { name: 'Certificates', href: '#certificates' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -20,19 +22,27 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
-      const current = sections.find((section) => {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          return rect.top <= 120 && rect.bottom >= 120;
+      const sections = ['hero', 'about', 'skills', 'projects', 'articles', 'experience', 'certificates', 'contact'];
+
+      // Check if user scrolled near the bottom of the page
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+        setActiveSection('contact');
+        return;
+      }
+
+      // Check sections from bottom to top with header offset
+      const scrollPosition = window.scrollY + 200;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
         }
-        return false;
-      });
-      if (current) setActiveSection(current);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -48,6 +58,7 @@ export default function Navbar() {
         {/* Brand Logo */}
         <a
           href="#hero"
+          onClick={() => setActiveSection('hero')}
           className="group flex items-center gap-2.5 font-bold text-xl tracking-tight text-white focus:outline-none"
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition-transform duration-200">
@@ -61,11 +72,13 @@ export default function Navbar() {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
           {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
+            const sectionId = link.href.substring(1);
+            const isActive = activeSection === sectionId;
             return (
               <a
                 key={link.name}
                 href={link.href}
+                onClick={() => setActiveSection(sectionId)}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? 'bg-cyan-500/15 text-cyan-400 font-semibold shadow-sm'
@@ -98,6 +111,17 @@ export default function Navbar() {
           >
             <Linkedin className="w-5 h-5" />
           </a>
+          {portfolioData.personal.medium && (
+            <a
+              href={portfolioData.personal.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium Profile"
+              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition-colors"
+            >
+              <Medium className="w-5 h-5" />
+            </a>
+          )}
           <a
             href="#contact"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all active:scale-95"
@@ -150,6 +174,16 @@ export default function Navbar() {
               >
                 <Linkedin className="w-5 h-5" />
               </a>
+              {portfolioData.personal.medium && (
+                <a
+                  href={portfolioData.personal.medium}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
+                >
+                  <Medium className="w-5 h-5" />
+                </a>
+              )}
               <a
                 href={`mailto:${portfolioData.personal.email}`}
                 className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"

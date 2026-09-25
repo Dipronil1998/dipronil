@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Send, Sparkles, Check, Copy, MessageSquare, Clock } from 'lucide-react';
-import { Github, Linkedin, Twitter } from './Icons';
+import { Mail, MapPin, Phone, Send, Sparkles, Check, Copy, MessageSquare, Clock } from 'lucide-react';
+import { Github, Linkedin, Twitter, Medium } from './Icons';
 import confetti from 'canvas-confetti';
 import { portfolioData } from '../data/portfolioData';
 
@@ -15,6 +15,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -27,6 +28,13 @@ export default function Contact() {
     navigator.clipboard.writeText(portfolioData.personal.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handleCopyPhone = () => {
+    if (!portfolioData.personal.phone) return;
+    navigator.clipboard.writeText(portfolioData.personal.phone);
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2500);
   };
 
   const handleSubmit = (e) => {
@@ -61,7 +69,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden scroll-mt-16">
       {/* Glow highlight */}
       <div className="absolute bottom-0 right-10 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[150px] pointer-events-none -z-10" />
 
@@ -118,6 +126,37 @@ export default function Contact() {
                   </button>
                 </div>
 
+                {/* Phone row if available */}
+                {portfolioData.personal.phone && (
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                        <Phone className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-400">Phone / WhatsApp</div>
+                        <a
+                          href={`tel:${portfolioData.personal.phone}`}
+                          className="text-sm font-semibold text-white hover:text-emerald-400 transition-colors"
+                        >
+                          {portfolioData.personal.phone}
+                        </a>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleCopyPhone}
+                      className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors relative cursor-pointer"
+                      title="Copy Phone Number"
+                    >
+                      {copiedPhone ? (
+                        <Check className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                )}
+
                 {/* Location row */}
                 <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                   <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
@@ -131,7 +170,7 @@ export default function Contact() {
 
                 {/* Response time row */}
                 <div className="flex items-center gap-3 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
                     <Clock className="w-4 h-4" />
                   </div>
                   <div>
@@ -150,6 +189,7 @@ export default function Contact() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
+                    aria-label="GitHub Profile"
                   >
                     <Github className="w-5 h-5" />
                   </a>
@@ -158,17 +198,32 @@ export default function Contact() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
+                    aria-label="LinkedIn Profile"
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  <a
-                    href={portfolioData.personal.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
+                  {portfolioData.personal.medium && (
+                    <a
+                      href={portfolioData.personal.medium}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
+                      aria-label="Medium Articles"
+                    >
+                      <Medium className="w-5 h-5" />
+                    </a>
+                  )}
+                  {portfolioData.personal.twitter && (
+                    <a
+                      href={portfolioData.personal.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
+                      aria-label="Twitter Profile"
+                    >
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

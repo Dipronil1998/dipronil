@@ -70,3 +70,32 @@ export function Figma({ className = "w-5 h-5" }) {
     </svg>
   );
 }
+
+export function Medium({ className = "w-5 h-5" }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+    </svg>
+  );
+}
+
+export function Swagger({ className = "w-5 h-5" }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.5 9.5c.8-1 2.2-1.5 3.5-1 1.3.5 2 1.8 1.5 3.1-.4 1-1.3 1.5-2.2 1.8-.9.3-1.8.8-2 1.8-.2 1.3.6 2.5 1.9 2.8 1.3.3 2.6-.2 3.3-1.2" />
+    </svg>
+  );
+}

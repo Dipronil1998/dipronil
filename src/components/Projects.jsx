@@ -5,24 +5,18 @@ import { portfolioData } from '../data/portfolioData';
 import ProjectModal from './ProjectModal';
 
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
-
-  const filterOptions = ['All', 'Full Stack', 'Frontend', 'Backend'];
-
-  const filteredProjects = activeFilter === 'All'
-    ? portfolioData.projects
-    : portfolioData.projects.filter((p) => p.category === activeFilter);
+  const projects = portfolioData.projects || [];
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
+    <section id="projects" className="py-24 relative overflow-hidden scroll-mt-16">
       {/* Glow highlight */}
       <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Featured Portfolio</span>
@@ -35,26 +29,9 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-          {filterOptions.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                activeFilter === filter
-                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm'
-                  : 'bg-slate-900/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border border-slate-800'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+          {projects.map((project) => (
             <div
               key={project.id}
               className="glass-panel rounded-3xl overflow-hidden border border-slate-800/80 hover:border-cyan-500/30 flex flex-col transition-all duration-300 hover:-translate-y-2 group shadow-xl shadow-black/20"

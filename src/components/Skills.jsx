@@ -28,7 +28,7 @@ import {
   Workflow, 
   Sparkles 
 } from 'lucide-react';
-import { Figma } from './Icons';
+import { Figma, Swagger } from './Icons';
 import { portfolioData } from '../data/portfolioData';
 
 const iconLookup = {
@@ -55,6 +55,7 @@ const iconLookup = {
   GitBranch,
   Send,
   Figma,
+  Swagger,
   CheckCircle2,
   TerminalSquare,
   Workflow,
@@ -73,7 +74,7 @@ export default function Skills() {
   const currentCategory = categories.find((c) => c.id === activeTab) || categories[0];
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden bg-slate-950/40">
+    <section id="skills" className="py-24 relative overflow-hidden bg-slate-950/40 scroll-mt-16">
       {/* Glow background */}
       <div className="absolute top-1/3 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 

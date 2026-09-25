@@ -4,7 +4,7 @@ import { portfolioData } from '../data/portfolioData';
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 relative overflow-hidden bg-slate-950/40">
+    <section id="experience" className="py-24 relative overflow-hidden bg-slate-950/40 scroll-mt-16">
       {/* Ambient background blur */}
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
@@ -120,33 +120,35 @@ export default function Experience() {
             </div>
 
             {/* Testimonial preview */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                <span>Recommendations</span>
-              </h3>
+            {portfolioData.testimonials && portfolioData.testimonials.length > 0 && (
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <span>Recommendations</span>
+                </h3>
 
-              {portfolioData.testimonials.map((testi, tIdx) => (
-                <div
-                  key={tIdx}
-                  className="glass-panel p-6 rounded-2xl border border-slate-800/80 space-y-4"
-                >
-                  <p className="text-slate-300 text-sm italic leading-relaxed">
-                    "{testi.quote}"
-                  </p>
-                  <div className="flex items-center gap-3 pt-2 border-t border-slate-800">
-                    <img
-                      src={testi.avatar}
-                      alt={testi.author}
-                      className="w-10 h-10 rounded-full object-cover border border-cyan-500/40"
-                    />
-                    <div>
-                      <div className="text-sm font-bold text-white">{testi.author}</div>
-                      <div className="text-xs text-slate-400">{testi.title}</div>
+                {portfolioData.testimonials.map((testi, tIdx) => (
+                  <div
+                    key={tIdx}
+                    className="glass-panel p-6 rounded-2xl border border-slate-800/80 space-y-4"
+                  >
+                    <p className="text-slate-300 text-sm italic leading-relaxed">
+                      "{testi.quote}"
+                    </p>
+                    <div className="flex items-center gap-3 pt-2 border-t border-slate-800">
+                      <img
+                        src={testi.avatar}
+                        alt={testi.author}
+                        className="w-10 h-10 rounded-full object-cover border border-cyan-500/40"
+                      />
+                      <div>
+                        <div className="text-sm font-bold text-white">{testi.author}</div>
+                        <div className="text-xs text-slate-400">{testi.title}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
           </div>
 

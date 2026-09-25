@@ -6,12 +6,12 @@ const highlightIcons = [Code2, Server, Gauge, ShieldCheck];
 
 export default function About() {
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
+    <section id="about" className="py-24 relative overflow-hidden scroll-mt-16">
       {/* Background radial glow */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
@@ -28,7 +28,7 @@ export default function About() {
 
         {/* Story & Info Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          
+
           {/* Left: Bio & Quick Facts */}
           <div className="lg:col-span-6 space-y-6">
             <div className="glass-panel p-8 rounded-3xl border border-slate-800 space-y-6">
@@ -70,7 +70,7 @@ export default function About() {
                   </div>
                   <div>
                     <div className="text-xs text-slate-400">Experience</div>
-                    <div className="font-semibold text-white">3+ Years Building</div>
+                    <div className="font-semibold text-white">5+ Years Building</div>
                   </div>
                 </div>
 
