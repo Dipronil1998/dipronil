@@ -485,7 +485,7 @@ export const submitContactMessage = async (contactData) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      timeout: 12000,
+      timeout: 1200000,
     });
 
     console.log('[Contact API] Success response received:', response.data);
