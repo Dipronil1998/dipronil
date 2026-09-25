@@ -13,6 +13,7 @@ import BlogsPage from './pages/BlogsPage';
 import CertificatesPage from './pages/CertificatesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 
 import { PortfolioProvider } from './context/PortfolioContext';
 
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="*" element={<PortfolioHome />} />
         </Routes>
         <Footer />
+        <Chatbot />
       </div>
     </PortfolioProvider>
   );
