@@ -268,8 +268,8 @@ export const fetchHomeData = async () => {
       // Normalize projects from backend
       const normalizedProjects = Array.isArray(data.projects) && data.projects.length > 0
         ? data.projects
-            .filter((p) => p.active !== false)
-            .map((p, idx) => normalizeProjectItem(p, idx))
+          .filter((p) => p.active !== false)
+          .map((p, idx) => normalizeProjectItem(p, idx))
         : portfolioData.projects;
 
       // Normalize blogs from backend
@@ -280,24 +280,24 @@ export const fetchHomeData = async () => {
       // Normalize experiences from backend
       const normalizedExperiences = Array.isArray(data.experiences) && data.experiences.length > 0
         ? data.experiences.map((exp) => ({
-            role: exp.role || 'Software Engineer',
-            company: exp.companyname || exp.company || 'Tech Company',
-            period: exp.year || exp.period || 'Recent',
-            location: 'Kolkata, India',
-            description: exp.description || '',
-            achievements: [exp.description],
-          }))
+          role: exp.role || 'Software Engineer',
+          company: exp.companyname || exp.company || 'Tech Company',
+          period: exp.year || exp.period || 'Recent',
+          location: 'Kolkata, India',
+          description: exp.description || '',
+          achievements: [exp.description],
+        }))
         : portfolioData.experience;
 
       // Normalize educations from backend
       const normalizedEducations = Array.isArray(data.educations) && data.educations.length > 0
         ? data.educations.map((edu) => ({
-            degree: edu.degree,
-            institution: edu.univercity || edu.university || edu.institution,
-            period: edu.year || edu.period,
-            location: 'Kolkata, India',
-            details: edu.description || '',
-          }))
+          degree: edu.degree,
+          institution: edu.univercity || edu.university || edu.institution,
+          period: edu.year || edu.period,
+          location: 'Kolkata, India',
+          details: edu.description || '',
+        }))
         : portfolioData.education;
 
       // Normalize certificates from backend
@@ -493,7 +493,7 @@ export const submitContactMessage = async (contactData) => {
   } catch (error) {
     console.warn(`[Contact API] Primary ${url} failed. Trying fallback endpoint:`, error?.message);
     try {
-      const fallbackResp = await apiClient.post('/mailsend', payload);
+      const fallbackResp = await apiClient.post('/api/mailsend', payload);
       return fallbackResp.data;
     } catch (fallbackErr) {
       console.error('[Contact API] All contact endpoints failed:', fallbackErr?.message || error?.message);
@@ -536,7 +536,7 @@ export const downloadResumeFile = async () => {
     return { success: true, url: downloadUrl };
   } catch (error) {
     console.warn('[Resume API] Direct blob download failed, attempting direct link download:', error);
-    
+
     // Fallback: direct window download trigger
     const link = document.createElement('a');
     link.href = downloadUrl;
@@ -575,11 +575,11 @@ export const sendChatbotMessage = async (messages) => {
   // Format array to OpenAI schema [{ role, content }]
   const formattedMessages = Array.isArray(messages)
     ? messages
-        .filter((m) => m && (m.content || m.text))
-        .map((m) => ({
-          role: m.role || (m.sender === 'user' ? 'user' : 'assistant'),
-          content: m.content || m.text || '',
-        }))
+      .filter((m) => m && (m.content || m.text))
+      .map((m) => ({
+        role: m.role || (m.sender === 'user' ? 'user' : 'assistant'),
+        content: m.content || m.text || '',
+      }))
     : [{ role: 'user', content: String(messages) }];
 
   try {
