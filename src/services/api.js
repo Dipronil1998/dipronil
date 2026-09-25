@@ -474,10 +474,10 @@ export const submitContactMessage = async (contactData) => {
   console.log(`[Contact API] Submitting contact message to: ${url}`, contactData);
 
   const payload = {
-    name: (contactData.name || contactData.Name || '').trim(),
-    email: (contactData.email || contactData.Email || '').trim(),
-    subject: (contactData.subject || contactData.Subject || 'Portfolio Contact Inquiry').trim(),
-    message: (contactData.message || contactData.Message || '').trim(),
+    name: (contactData.name || '').trim(),
+    email: (contactData.email || '').trim(),
+    subject: (contactData.subject || 'Portfolio Contact Inquiry').trim(),
+    message: (contactData.message || '').trim(),
   };
 
   try {
