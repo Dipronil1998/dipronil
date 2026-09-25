@@ -59,7 +59,7 @@ export const getBackendHostUrl = () => {
  */
 export const getResumeDownloadUrl = () => {
   const host = getBackendHostUrl().replace(/\/$/, '');
-  return `${host}/downloadcv/file`;
+  return `${host}/api/downloadcv/file`;
 };
 
 /**
