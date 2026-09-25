@@ -7,7 +7,7 @@
  */
 
 const DEFAULT_LOCAL_URL = 'http://localhost:3000/api';
-const DEFAULT_HOSTED_URL = 'https://dipronil-portfolio.onrender.com/';
+const DEFAULT_HOSTED_URL = 'https://dipronil-portfolio-api.dipronildas-net.workers.dev/';
 
 /**
  * Checks if the current app is running on localhost / development
