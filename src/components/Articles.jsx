@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { BookOpen, ExternalLink, Calendar, Clock, Sparkles, ArrowRight, Heart, RefreshCw } from 'lucide-react';
 import { Medium } from './Icons';
 import { usePortfolio } from '../context/PortfolioContext';
@@ -29,16 +30,24 @@ export default function Articles() {
             Sharing insights, deep dives, best practices, and architecture tutorials on modern web development.
           </p>
 
-          {/* React Query refresh button */}
-          <div className="pt-2 flex items-center justify-center">
+          {/* Action buttons */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/blogs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 transition-all shadow-sm shadow-cyan-500/10"
+            >
+              <span>View All Blogs Page</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+
             <button
               onClick={() => refetch()}
               disabled={isFetching}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-slate-900/80 text-slate-400 hover:text-cyan-400 border border-slate-800 hover:border-cyan-500/30 transition-all cursor-pointer disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium bg-slate-900/80 text-slate-400 hover:text-cyan-400 border border-slate-800 hover:border-cyan-500/30 transition-all cursor-pointer disabled:opacity-60"
               title="Refresh with React Query"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin text-cyan-400' : ''}`} />
-              <span>{isFetching ? 'Refreshing posts...' : 'Refresh articles'}</span>
+              <span>{isFetching ? 'Refreshing...' : 'Refresh'}</span>
             </button>
           </div>
         </div>
@@ -159,8 +168,17 @@ export default function Articles() {
         </div>
 
         {/* Section Bottom CTA */}
-        {personal?.medium && (
-          <div className="mt-14 text-center">
+        <div className="mt-14 flex flex-wrap items-center justify-center gap-4 text-center">
+          <Link
+            to="/blogs"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 transition-all hover:scale-[1.02] shadow-lg shadow-cyan-500/20"
+          >
+            <BookOpen className="w-5 h-5 text-white" />
+            <span>Read All Technical Blogs</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
+          {personal?.medium && (
             <a
               href={personal.medium}
               target="_blank"
@@ -168,11 +186,11 @@ export default function Articles() {
               className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-semibold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/40 transition-all hover:scale-[1.02] shadow-lg shadow-black/30"
             >
               <Medium className="w-5 h-5 text-white" />
-              <span>Explore All Stories on Medium</span>
+              <span>Explore on Medium</span>
               <ExternalLink className="w-4 h-4 text-cyan-400" />
             </a>
-          </div>
-        )}
+          )}
+        </div>
 
       </div>
     </section>

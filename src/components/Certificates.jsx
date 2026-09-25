@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Award, ExternalLink, Calendar, ShieldCheck, CheckCircle2, Eye, X, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Award, ExternalLink, Calendar, ShieldCheck, CheckCircle2, Eye, X, Sparkles, ArrowRight } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Certificates() {
@@ -28,6 +29,16 @@ export default function Certificates() {
           <p className="text-slate-400 text-base sm:text-lg">
             Professional certifications and specialized coursework demonstrating technical mastery and commitment to continuous learning.
           </p>
+
+          <div className="pt-2 flex items-center justify-center">
+            <Link
+              to="/certificates"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 transition-all shadow-sm shadow-cyan-500/10"
+            >
+              <span>View All Certificates Page</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         {/* Certificates Grid */}
@@ -113,6 +124,18 @@ export default function Certificates() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Section Bottom CTA */}
+        <div className="mt-14 flex items-center justify-center">
+          <Link
+            to="/certificates"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 transition-all hover:scale-[1.02] shadow-lg shadow-cyan-500/20"
+          >
+            <Award className="w-5 h-5 text-white" />
+            <span>Explore All Verified Certifications</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
       </div>

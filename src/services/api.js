@@ -39,6 +39,154 @@ const defaultCertImages = [
   'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop',
 ];
 
+const defaultBlogImages = [
+  'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop',
+];
+
+/**
+ * Extract hashtags or smart keywords from text/title if categories are missing
+ */
+export const extractBlogTags = (b) => {
+  if (Array.isArray(b.categories) && b.categories.length > 0) {
+    return b.categories;
+  }
+
+  const text = `${b.title || ''} ${b.description || ''} ${b.content || ''}`;
+  const foundTags = [];
+
+  // Match #Hashtags
+  const hashMatches = text.match(/#([a-zA-Z0-9_-]+)/g);
+  if (hashMatches) {
+    hashMatches.forEach((h) => {
+      const clean = h.replace('#', '').trim();
+      if (clean && !foundTags.includes(clean)) {
+        foundTags.push(clean);
+      }
+    });
+  }
+
+  // Keyword inferences
+  const keywords = [
+    { key: 'Rate Limiting', tag: 'Rate Limiting' },
+    { key: 'Token Bucket', tag: 'System Design' },
+    { key: 'Pagination', tag: 'Pagination' },
+    { key: 'Cursor', tag: 'Database' },
+    { key: 'Microservices', tag: 'Microservices' },
+    { key: 'Nginx', tag: 'Nginx' },
+    { key: 'Gateway', tag: 'API Gateway' },
+    { key: 'RAG', tag: 'RAG AI' },
+    { key: 'Docker', tag: 'Docker' },
+    { key: 'Redis', tag: 'Redis' },
+    { key: 'Qdrant', tag: 'Vector DB' },
+    { key: 'Node', tag: 'Node.js' },
+    { key: 'React', tag: 'React' },
+    { key: 'Express', tag: 'Express' },
+  ];
+
+  keywords.forEach(({ key, tag }) => {
+    if (text.toLowerCase().includes(key.toLowerCase()) && !foundTags.includes(tag)) {
+      foundTags.push(tag);
+    }
+  });
+
+  return foundTags.length > 0 ? foundTags.slice(0, 4) : ['Backend', 'System Design', 'Node.js'];
+};
+
+/**
+ * Normalizes a raw blog item from backend
+ */
+export const normalizeBlogItem = (b, idx = 0) => {
+  const rawText = b.excerpt || (b.description ? b.description.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim() : '');
+  const excerpt = rawText.length > 170 ? rawText.slice(0, 170) + '...' : rawText;
+  const wordCount = (b.content || b.description || '').split(/\s+/).length;
+  const readTime = `${Math.max(3, Math.ceil(wordCount / 200))} min read`;
+  const tags = extractBlogTags(b);
+
+  return {
+    id: b.guid || b._id || b.link || `blog-${idx}`,
+    title: b.title || 'Untitled Article',
+    description: excerpt || 'Read the full technical deep dive on Medium.',
+    url: b.link || b.url || '#',
+    date: b.pubDateFormatted || (b.pubDate ? new Date(b.pubDate.replace(/-/g, '/')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'),
+    readTime,
+    tags,
+    image: b.thumbnail || b.image || defaultBlogImages[idx % defaultBlogImages.length],
+    claps: 'Live on Medium',
+    isLive: true,
+    author: b.author || 'DIPRONIL DAS',
+    content: b.content || b.description || '',
+  };
+};
+
+/**
+ * Normalizes a raw certificate item from backend
+ */
+export const normalizeCertificateItem = (c, idx = 0) => {
+  const isCoursera = c.certificatelink?.includes('coursera.org');
+  const isUdemy = c.certificatelink?.includes('udemy.com');
+
+  let issuer = c.issuer || (isCoursera ? 'Coursera' : (isUdemy ? 'Udemy' : 'Verified Issuer'));
+  if (isCoursera && c.title?.toLowerCase().includes('python')) {
+    issuer = 'Coursera (Univ. of Michigan)';
+  }
+
+  let rawId = c.credentialId;
+  if (!rawId && c.certificatelink) {
+    const parts = c.certificatelink.split('/certificate/');
+    if (parts[1]) {
+      rawId = parts[1].replace(/\/$/, '');
+    }
+  }
+
+  let skills = ['Full Stack Development', 'Software Engineering'];
+  const titleLower = (c.title || '').toLowerCase();
+  if (titleLower.includes('node.js') || titleLower.includes('nodejs')) {
+    skills = ['Node.js', 'Express.js', 'REST APIs', 'Async Programming', 'MongoDB'];
+  } else if (titleLower.includes('mern')) {
+    skills = ['MongoDB', 'Express', 'React', 'Node.js', 'Full Stack MERN'];
+  } else if (titleLower.includes('mean') || titleLower.includes('angular')) {
+    skills = ['Angular', 'Node.js', 'Express', 'MongoDB', 'MEAN Stack'];
+  } else if (titleLower.includes('python data structures')) {
+    skills = ['Python', 'Data Structures', 'Algorithms', 'Tuples & Dicts'];
+  } else if (titleLower.includes('python')) {
+    skills = ['Python 3', 'Programming Fundamentals', 'Data Analysis'];
+  }
+
+  let image = c.image;
+  if (!image || !image.startsWith('http')) {
+    if (titleLower.includes('node')) {
+      image = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('mern')) {
+      image = 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('mean') || titleLower.includes('angular')) {
+      image = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('python data structures')) {
+      image = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('python')) {
+      image = 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1000&auto=format&fit=crop';
+    } else {
+      image = defaultCertImages[idx % defaultCertImages.length];
+    }
+  }
+
+  return {
+    id: c._id || c.id || `cert-${idx}`,
+    title: c.title || c.name || 'Professional Certification',
+    issuer,
+    issueDate: c.issueDate || c.year || 'Verified Credential',
+    credentialId: rawId || `CERT-${idx + 1}`,
+    credentialUrl: c.certificatelink || c.credentialUrl || '#',
+    image,
+    skills,
+    active: c.active !== undefined ? c.active : true,
+    piority: c.piority || (idx + 1),
+    featured: c.piority === 1 || c.featured || false,
+  };
+};
+
 /**
  * Fetch full home page data from backend /api/home (Localhost http://localhost:3000/api/home or Hosted)
  */
@@ -82,25 +230,7 @@ export const fetchHomeData = async () => {
 
       // Normalize blogs from backend
       const normalizedBlogs = Array.isArray(data.blogs) && data.blogs.length > 0
-        ? data.blogs.map((b, idx) => {
-            const rawText = b.excerpt || (b.description ? b.description.replace(/<[^>]*>?/gm, '').trim() : '');
-            const excerpt = rawText.length > 160 ? rawText.slice(0, 160) + '...' : rawText;
-            const wordCount = (b.content || b.description || '').split(/\s+/).length;
-            const readTime = `${Math.max(3, Math.ceil(wordCount / 200))} min read`;
-
-            return {
-              id: b.guid || b._id || `blog-${idx}`,
-              title: b.title,
-              description: excerpt || 'Read the full story on Medium.',
-              url: b.link || b.url,
-              date: b.pubDateFormatted || (b.pubDate ? new Date(b.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Recent'),
-              readTime,
-              tags: b.categories && b.categories.length > 0 ? b.categories : ['Backend', 'Architecture', 'Node.js'],
-              image: b.thumbnail || b.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
-              claps: 'Live on Medium',
-              isLive: true,
-            };
-          })
+        ? data.blogs.map((b, idx) => normalizeBlogItem(b, idx))
         : portfolioData.mediumPosts;
 
       // Normalize experiences from backend
@@ -128,25 +258,7 @@ export const fetchHomeData = async () => {
 
       // Normalize certificates from backend
       const normalizedCertificates = Array.isArray(data.certificates) && data.certificates.length > 0
-        ? data.certificates.map((c, idx) => {
-            const rawId = c.certificatelink
-              ? c.certificatelink.split('/certificate/')[1]?.replace(/\/$/, '')
-              : `CERT-${idx + 1}`;
-
-            return {
-              id: c._id || c.id || `cert-${idx}`,
-              title: c.title || c.name,
-              issuer: c.issuer || (c.certificatelink?.includes('udemy') ? 'Udemy' : 'Verified Issuer'),
-              issueDate: c.issueDate || c.year || 'Certified',
-              credentialId: c.credentialId || rawId || '',
-              credentialUrl: c.certificatelink || c.credentialUrl || '#',
-              image: c.image?.startsWith('http')
-                ? c.image
-                : defaultCertImages[idx % defaultCertImages.length],
-              skills: ['Full Stack Development', 'Node.js', 'React', 'Databases'],
-              featured: c.piority === 1 || c.featured || false,
-            };
-          })
+        ? data.certificates.map((c, idx) => normalizeCertificateItem(c, idx))
         : portfolioData.certificates;
 
       // Compute stats
@@ -180,6 +292,76 @@ export const fetchHomeData = async () => {
   // Graceful fallback
   return {
     ...portfolioData,
+    isFromBackend: false,
+  };
+};
+
+/**
+ * Fetch all blogs from backend /api/blogs (Localhost http://localhost:3000/api/blogs or Hosted)
+ */
+export const fetchBlogs = async () => {
+  const url = buildApiUrl('/blogs');
+  console.log(`[API Call] Fetching all blogs from: ${url}`);
+
+  try {
+    const response = await apiClient.get('/blogs');
+    console.log('[API Call] Blogs response received:', response.data);
+
+    if (response.data && response.data.success && Array.isArray(response.data.blogs)) {
+      const rawBlogs = response.data.blogs;
+      const normalized = rawBlogs.map((b, idx) => normalizeBlogItem(b, idx));
+      return {
+        success: true,
+        count: response.data.count || normalized.length,
+        totalCount: response.data.totalCount || normalized.length,
+        blogs: normalized,
+        isFromBackend: true,
+      };
+    }
+  } catch (error) {
+    console.warn(`[API] Could not fetch ${url}. Fallback to local posts:`, error?.message);
+  }
+
+  return {
+    success: true,
+    count: portfolioData.mediumPosts?.length || 0,
+    totalCount: portfolioData.mediumPosts?.length || 0,
+    blogs: (portfolioData.mediumPosts || []).map((b, idx) => normalizeBlogItem(b, idx)),
+    isFromBackend: false,
+  };
+};
+
+/**
+ * Fetch all certificates from backend /api/certificates (Localhost http://localhost:3000/api/certificates or Hosted)
+ */
+export const fetchCertificates = async () => {
+  const url = buildApiUrl('/certificates');
+  console.log(`[API Call] Fetching all certificates from: ${url}`);
+
+  try {
+    const response = await apiClient.get('/certificates');
+    console.log('[API Call] Certificates response received:', response.data);
+
+    if (response.data && response.data.success && Array.isArray(response.data.certificates)) {
+      const rawCerts = response.data.certificates;
+      const normalized = rawCerts.map((c, idx) => normalizeCertificateItem(c, idx));
+      return {
+        success: true,
+        count: response.data.count || normalized.length,
+        totalCount: response.data.totalCount || normalized.length,
+        certificates: normalized,
+        isFromBackend: true,
+      };
+    }
+  } catch (error) {
+    console.warn(`[API] Could not fetch ${url}. Fallback to local certificates:`, error?.message);
+  }
+
+  return {
+    success: true,
+    count: portfolioData.certificates?.length || 0,
+    totalCount: portfolioData.certificates?.length || 0,
+    certificates: (portfolioData.certificates || []).map((c, idx) => normalizeCertificateItem(c, idx)),
     isFromBackend: false,
   };
 };

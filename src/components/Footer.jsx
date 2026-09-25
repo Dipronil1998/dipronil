@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowUp, Code2, Heart, Mail } from 'lucide-react';
 import { Github, Linkedin, Twitter, Medium } from './Icons';
 import { usePortfolio } from '../context/PortfolioContext';
@@ -16,14 +17,14 @@ export default function Footer() {
 
           {/* Brand Col */}
           <div className="md:col-span-6 space-y-4">
-            <a href="#hero" className="flex items-center gap-2.5 font-bold text-xl text-white">
+            <Link to="/" className="flex items-center gap-2.5 font-bold text-xl text-white">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20">
                 <Code2 className="w-5 h-5" />
               </div>
               <span className="font-extrabold text-white">
                 Dipronil<span className="text-cyan-400">.dev</span>
               </span>
-            </a>
+            </Link>
             <p className="text-slate-400 text-sm max-w-sm leading-relaxed">
               Designing and developing high quality web applications, interactive user experiences, and scalable software solutions.
             </p>
@@ -36,25 +37,29 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>
-                <a href="#about" className="hover:text-cyan-400 transition-colors">About Me</a>
+                <a href="/#about" className="hover:text-cyan-400 transition-colors">About Me</a>
               </li>
               <li>
-                <a href="#skills" className="hover:text-cyan-400 transition-colors">Skills & Stack</a>
+                <a href="/#skills" className="hover:text-cyan-400 transition-colors">Skills & Stack</a>
               </li>
               <li>
-                <a href="#projects" className="hover:text-cyan-400 transition-colors">Featured Projects</a>
+                <a href="/#projects" className="hover:text-cyan-400 transition-colors">Featured Projects</a>
               </li>
               <li>
-                <a href="#articles" className="hover:text-cyan-400 transition-colors">Articles & Medium</a>
+                <Link to="/blogs" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
+                  Technical Blogs (All)
+                </Link>
               </li>
               <li>
-                <a href="#experience" className="hover:text-cyan-400 transition-colors">Experience & Education</a>
+                <a href="/#experience" className="hover:text-cyan-400 transition-colors">Experience & Education</a>
               </li>
               <li>
-                <a href="#certificates" className="hover:text-cyan-400 transition-colors">Certificates & Badges</a>
+                <Link to="/certificates" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
+                  Certificates & Badges
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="hover:text-cyan-400 transition-colors">Contact</a>
+                <a href="/#contact" className="hover:text-cyan-400 transition-colors">Contact</a>
               </li>
             </ul>
           </div>
