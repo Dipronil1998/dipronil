@@ -15,7 +15,7 @@ export const portfolioData = {
     github: "https://github.com/Dipronil1998",
     linkedin: "https://www.linkedin.com/in/dipronil-das-37041516a/",
     medium: "https://medium.com/@dipronildas.net",
-    resumeUrl: "http://localhost:3000/downloadcv/file",
+    resumeUrl: "http://localhost:3000/api/downloadcv/file",
     availability: "Available for Full-time Roles",
   },
 
