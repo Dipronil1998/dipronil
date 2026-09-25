@@ -1,13 +1,7 @@
 /**
  * Environment-aware API Configuration Helper
  * 
- * Automatically switches between Localhost Backend and Hosted Backend:
- * - If running locally (localhost / 127.0.0.1 / Vite dev mode): uses Local Backend (http://localhost:3000/api)
- * - If deployed (production domain): uses Hosted Backend
- */
 
-const DEFAULT_LOCAL_URL = 'http://localhost:3000/api';
-const DEFAULT_HOSTED_URL = 'https://dipronil-portfolio-api.dipronildas-net.workers.dev/api ';
 
 /**
  * Checks if the current app is running on localhost / development
@@ -33,8 +27,8 @@ export const isLocalhost = () => {
  * @returns {string} The appropriate API Base URL
  */
 export const getApiBaseUrl = () => {
-  const localUrl = import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL;
-  const hostedUrl = import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL;
+  const localUrl = import.meta.env.VITE_BACKEND_LOCAL_URL;
+  const hostedUrl = import.meta.env.VITE_BACKEND_PROD_URL;
 
   return isLocalhost() ? localUrl : hostedUrl;
 };
@@ -45,7 +39,7 @@ export const getApiBaseUrl = () => {
  * @returns {string} - Full resolved URL e.g. 'http://localhost:3000/api/home'
  */
 export const buildApiUrl = (endpoint = '') => {
-  const baseUrl = (getApiBaseUrl() || DEFAULT_LOCAL_URL).replace(/\/$/, '');
+  const baseUrl = (getApiBaseUrl()).replace(/\/$/, '');
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   return `${baseUrl}${cleanEndpoint}`;
 };
@@ -55,7 +49,7 @@ export const buildApiUrl = (endpoint = '') => {
  * @returns {string} e.g. 'http://localhost:3000'
  */
 export const getBackendHostUrl = () => {
-  const apiUrl = getApiBaseUrl() || DEFAULT_LOCAL_URL;
+  const apiUrl = getApiBaseUrl();
   return apiUrl.replace(/\/api\/?$/, '');
 };
 
@@ -96,6 +90,6 @@ export const apiConfig = {
   resumeUrl: getResumeDownloadUrl(),
   mailUrl: getMailSendUrl(),
   chatbotUrl: getChatbotMessageUrl(),
-  localUrl: import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL,
-  hostedUrl: import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL,
+  localUrl: import.meta.env.VITE_BACKEND_LOCAL_URL,
+  hostedUrl: import.meta.env.VITE_BACKEND_PROD_URL,
 };
