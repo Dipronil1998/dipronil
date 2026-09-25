@@ -96,6 +96,70 @@ export const extractBlogTags = (b) => {
 };
 
 /**
+ * Normalizes a raw project item from backend
+ */
+export const normalizeProjectItem = (p, idx = 0) => {
+  const language = p.language || p.tag || 'Full Stack';
+  const tags = p.language
+    ? p.language.split(',').map((s) => s.trim()).filter(Boolean)
+    : (p.tag ? [p.tag] : ['React', 'NodeJS']);
+
+  let image = p.image;
+  if (!image || !image.startsWith('http')) {
+    const titleLower = (p.title || '').toLowerCase();
+    if (titleLower.includes('valet')) {
+      image = 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('baby') || titleLower.includes('products')) {
+      image = 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('crazyloom') || titleLower.includes('loom') || titleLower.includes('garment')) {
+      image = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('rag') || titleLower.includes('vector')) {
+      image = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('sql') || titleLower.includes('assistant')) {
+      image = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('blog')) {
+      image = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('phd') || titleLower.includes('portal')) {
+      image = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('crm') || titleLower.includes('ledger')) {
+      image = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('atlpay') || titleLower.includes('pay')) {
+      image = 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('hunt') || titleLower.includes('game') || titleLower.includes('quest') || titleLower.includes('quiz')) {
+      image = 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('poll')) {
+      image = 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('compiler') || titleLower.includes('complier')) {
+      image = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop';
+    } else if (titleLower.includes('portfolio')) {
+      image = 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1000&auto=format&fit=crop';
+    } else {
+      image = defaultProjectImages[idx % defaultProjectImages.length];
+    }
+  }
+
+  return {
+    id: p._id || p.id || `proj-${idx}`,
+    title: p.title || 'Untitled Project',
+    category: p.tag || 'Full Stack',
+    description: p.description || 'Production ready engineering project.',
+    image,
+    tags,
+    language,
+    demoUrl: p.hostlink || p.demoUrl || '',
+    githubUrl: p.githublink || p.githubUrl || '',
+    featured: p.piority <= 3 || p.featured || false,
+    active: p.active !== undefined ? p.active : true,
+    priority: p.piority || (idx + 1),
+    features: [
+      `Built with ${language}`,
+      'Scalable production architecture & optimized performance',
+      'Secure APIs and responsive user interface',
+    ],
+  };
+};
+
+/**
  * Normalizes a raw blog item from backend
  */
 export const normalizeBlogItem = (b, idx = 0) => {
@@ -205,27 +269,7 @@ export const fetchHomeData = async () => {
       const normalizedProjects = Array.isArray(data.projects) && data.projects.length > 0
         ? data.projects
             .filter((p) => p.active !== false)
-            .map((p, idx) => ({
-              id: p._id || p.id || `proj-${idx}`,
-              title: p.title || 'Untitled Project',
-              category: p.tag || 'Full Stack',
-              description: p.description || '',
-              image: p.image?.startsWith('http')
-                ? p.image
-                : defaultProjectImages[idx % defaultProjectImages.length],
-              tags: p.language
-                ? p.language.split(',').map((s) => s.trim())
-                : (p.tag ? [p.tag] : ['React', 'NodeJS']),
-              demoUrl: p.hostlink || p.demoUrl || '#',
-              githubUrl: p.githublink || p.githubUrl || '#',
-              featured: p.piority === 1 || p.featured || false,
-              active: p.active !== undefined ? p.active : true,
-              features: [
-                `Built with ${p.language || p.tag || 'modern stack'}`,
-                'Production ready architecture & robust implementation',
-                'Responsive UI and optimized performance',
-              ],
-            }))
+            .map((p, idx) => normalizeProjectItem(p, idx))
         : portfolioData.projects;
 
       // Normalize blogs from backend
@@ -292,6 +336,44 @@ export const fetchHomeData = async () => {
   // Graceful fallback
   return {
     ...portfolioData,
+    isFromBackend: false,
+  };
+};
+
+/**
+ * Fetch all projects from backend /api/projects (Localhost http://localhost:3000/api/projects or Hosted)
+ */
+export const fetchProjects = async () => {
+  const url = buildApiUrl('/projects');
+  console.log(`[API Call] Fetching all projects from: ${url}`);
+
+  try {
+    const response = await apiClient.get('/projects');
+    console.log('[API Call] Projects response received:', response.data);
+
+    if (response.data && response.data.success && Array.isArray(response.data.projects)) {
+      const rawProjects = response.data.projects;
+      const normalized = rawProjects
+        .filter((p) => p.active !== false)
+        .map((p, idx) => normalizeProjectItem(p, idx));
+
+      return {
+        success: true,
+        count: response.data.count || normalized.length,
+        totalCount: response.data.totalCount || normalized.length,
+        projects: normalized,
+        isFromBackend: true,
+      };
+    }
+  } catch (error) {
+    console.warn(`[API] Could not fetch ${url}. Fallback to local projects:`, error?.message);
+  }
+
+  return {
+    success: true,
+    count: portfolioData.projects?.length || 0,
+    totalCount: portfolioData.projects?.length || 0,
+    projects: (portfolioData.projects || []).map((p, idx) => normalizeProjectItem(p, idx)),
     isFromBackend: false,
   };
 };

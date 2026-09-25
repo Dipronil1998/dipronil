@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ExternalLink, Sparkles, Star, Eye, ArrowRight } from 'lucide-react';
 import { Github } from './Icons';
 import { usePortfolio } from '../context/PortfolioContext';
@@ -27,6 +28,16 @@ export default function Projects() {
           <p className="text-slate-400 text-base sm:text-lg">
             A curated showcase of applications built with high craftsmanship, performance, and attention to detail.
           </p>
+
+          <div className="pt-2 flex items-center justify-center">
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 transition-all shadow-sm shadow-cyan-500/10"
+            >
+              <span>View All Projects Page</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -132,6 +143,17 @@ export default function Projects() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA to Projects Page */}
+        <div className="mt-14 text-center">
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all hover:scale-[1.02] active:scale-95"
+          >
+            <span>Explore All 18+ Engineering Projects</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
       </div>

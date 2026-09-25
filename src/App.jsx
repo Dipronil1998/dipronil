@@ -9,9 +9,10 @@ import Articles from './components/Articles';
 import Experience from './components/Experience';
 import Certificates from './components/Certificates';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 import BlogsPage from './pages/BlogsPage';
 import CertificatesPage from './pages/CertificatesPage';
+import ProjectsPage from './pages/ProjectsPage';
+import Footer from './components/Footer';
 
 import { PortfolioProvider } from './context/PortfolioContext';
 
@@ -48,6 +49,7 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<PortfolioHome />} />
+          <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/articles" element={<BlogsPage />} />
           <Route path="/certificates" element={<CertificatesPage />} />

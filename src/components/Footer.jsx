@@ -43,7 +43,9 @@ export default function Footer() {
                 <a href="/#skills" className="hover:text-cyan-400 transition-colors">Skills & Stack</a>
               </li>
               <li>
-                <a href="/#projects" className="hover:text-cyan-400 transition-colors">Featured Projects</a>
+                <Link to="/projects" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
+                  Projects Catalog (All 18+)
+                </Link>
               </li>
               <li>
                 <Link to="/blogs" className="hover:text-cyan-400 transition-colors text-cyan-400 font-medium">
