@@ -1,3 +1,13 @@
+/**
+ * Environment-aware API Configuration Helper
+ * 
+ * Automatically switches between Localhost Backend and Hosted Backend:
+ * - If running locally (localhost / 127.0.0.1 / Vite dev mode): uses Local Backend (http://localhost:3000/api)
+ * - If deployed (production domain): uses Hosted Backend
+ */
+
+const DEFAULT_LOCAL_URL = 'http://localhost:3000/api';
+const DEFAULT_HOSTED_URL = 'https://api.dipronildas.com/api';
 
 /**
  * Checks if the current app is running on localhost / development
@@ -23,20 +33,19 @@ export const isLocalhost = () => {
  * @returns {string} The appropriate API Base URL
  */
 export const getApiBaseUrl = () => {
-  // Check environment variables first (if defined in .env)
-  const localUrl = import.meta.env.VITE_BACKEND_LOCAL_URL;
-  const hostedUrl = import.meta.env.VITE_BACKEND_PROD_URL;
+  const localUrl = import.meta.env.VITE_BACKEND_LOCAL_URL || DEFAULT_LOCAL_URL;
+  const hostedUrl = import.meta.env.VITE_BACKEND_PROD_URL || DEFAULT_HOSTED_URL;
 
   return isLocalhost() ? localUrl : hostedUrl;
 };
 
 /**
  * Constructs a full API endpoint URL
- * @param {string} endpoint - e.g. '/contact', '/projects'
- * @returns {string} - Full resolved URL e.g. 'http://localhost:5000/api/contact'
+ * @param {string} endpoint - e.g. '/home', '/contact', '/projects'
+ * @returns {string} - Full resolved URL e.g. 'http://localhost:3000/api/home'
  */
 export const buildApiUrl = (endpoint = '') => {
-  const baseUrl = getApiBaseUrl().replace(/\/$/, '');
+  const baseUrl = (getApiBaseUrl() || DEFAULT_LOCAL_URL).replace(/\/$/, '');
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   return `${baseUrl}${cleanEndpoint}`;
 };

@@ -1,9 +1,10 @@
 import React from 'react';
 import { ArrowUp, Code2, Heart, Mail } from 'lucide-react';
 import { Github, Linkedin, Twitter, Medium } from './Icons';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Footer() {
+  const { personal = {} } = usePortfolio();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -66,7 +67,7 @@ export default function Footer() {
               </h4>
               <div className="flex items-center gap-2.5">
                 <a
-                  href={portfolioData.personal.github}
+                  href={personal.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -75,7 +76,7 @@ export default function Footer() {
                   <Github className="w-4 h-4" />
                 </a>
                 <a
-                  href={portfolioData.personal.linkedin}
+                  href={personal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -83,9 +84,9 @@ export default function Footer() {
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
-                {portfolioData.personal.medium && (
+                {personal.medium && (
                   <a
-                    href={portfolioData.personal.medium}
+                    href={personal.medium}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -94,9 +95,9 @@ export default function Footer() {
                     <Medium className="w-4 h-4" />
                   </a>
                 )}
-                {portfolioData.personal.twitter && (
+                {personal.twitter && (
                   <a
-                    href={portfolioData.personal.twitter}
+                    href={personal.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -106,7 +107,7 @@ export default function Footer() {
                   </a>
                 )}
                 <a
-                  href={`mailto:${portfolioData.personal.email}`}
+                  href={`mailto:${personal.email}`}
                   className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
                   aria-label="Email"
                 >

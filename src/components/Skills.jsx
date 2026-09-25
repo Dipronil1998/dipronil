@@ -29,7 +29,7 @@ import {
   Sparkles 
 } from 'lucide-react';
 import { Figma, Swagger } from './Icons';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const iconLookup = {
   Code2,
@@ -62,13 +62,14 @@ const iconLookup = {
 };
 
 export default function Skills() {
+  const { skills = {} } = usePortfolio();
   const [activeTab, setActiveTab] = useState('frontend');
 
   const categories = [
-    { id: 'frontend', name: 'Frontend', icon: Code2, data: portfolioData.skills.frontend, desc: 'Client-side architecture, reactive UI, and state management' },
-    { id: 'backend', name: 'Backend & APIs', icon: Server, data: portfolioData.skills.backend, desc: 'Scalable services, routing, and asynchronous processing' },
-    { id: 'databaseCloud', name: 'Databases & Cloud', icon: Database, data: portfolioData.skills.databaseCloud, desc: 'Relational & NoSQL databases, storage, and cloud hosting' },
-    { id: 'tools', name: 'Tools & DevOps', icon: Wrench, data: portfolioData.skills.tools, desc: 'Version control, build tools, CI/CD, and developer tooling' },
+    { id: 'frontend', name: 'Frontend', icon: Code2, data: skills.frontend || [], desc: 'Client-side architecture, reactive UI, and state management' },
+    { id: 'backend', name: 'Backend & APIs', icon: Server, data: skills.backend || [], desc: 'Scalable services, routing, and asynchronous processing' },
+    { id: 'databaseCloud', name: 'Databases & Cloud', icon: Database, data: skills.databaseCloud || [], desc: 'Relational & NoSQL databases, storage, and cloud hosting' },
+    { id: 'tools', name: 'Tools & DevOps', icon: Wrench, data: skills.tools || [], desc: 'Version control, build tools, CI/CD, and developer tooling' },
   ];
 
   const currentCategory = categories.find((c) => c.id === activeTab) || categories[0];

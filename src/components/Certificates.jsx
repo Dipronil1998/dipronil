@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Award, ExternalLink, Calendar, ShieldCheck, CheckCircle2, Eye, X, Sparkles } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Certificates() {
   const [selectedCert, setSelectedCert] = useState(null);
-  const certificates = portfolioData.certificates || [];
+  const { certificates = [] } = usePortfolio();
 
   if (certificates.length === 0) return null;
 

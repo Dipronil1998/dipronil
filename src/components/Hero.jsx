@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Download, Sparkles, FolderGit2, Briefcase, Cpu, Smile, Terminal, CheckCircle } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const iconMap = {
   Briefcase: Briefcase,
@@ -10,14 +10,16 @@ const iconMap = {
 };
 
 export default function Hero() {
+  const { personal, stats, isFromBackend } = usePortfolio();
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [fadeState, setFadeState] = useState('fade-in');
 
   useEffect(() => {
+    if (!personal?.roles?.length) return;
     const interval = setInterval(() => {
       setFadeState('fade-out');
       setTimeout(() => {
-        setCurrentRoleIndex((prev) => (prev + 1) % portfolioData.personal.roles.length);
+        setCurrentRoleIndex((prev) => (prev + 1) % personal.roles.length);
         setFadeState('fade-in');
       }, 300);
     }, 3200);
@@ -47,7 +49,7 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
               </span>
-              <span>{portfolioData.personal.availability}</span>
+              <span>{personal.availability}</span>
             </div>
 
             {/* Main Headline */}
@@ -57,7 +59,7 @@ export default function Hero() {
                 <span>Hello, World! I am</span>
               </p>
               <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-tight">
-                {portfolioData.personal.name}
+                {personal.name}
               </h1>
               <div className="h-12 flex items-center justify-center lg:justify-start">
                 <span className="text-xl sm:text-3xl font-semibold text-slate-300">
@@ -67,7 +69,7 @@ export default function Hero() {
                       fadeState === 'fade-in' ? 'opacity-100' : 'opacity-0'
                     }`}
                   >
-                    {portfolioData.personal.roles[currentRoleIndex]}
+                    {personal.roles?.[currentRoleIndex] || personal.title}
                   </span>
                 </span>
               </div>
@@ -75,7 +77,7 @@ export default function Hero() {
 
             {/* Bio paragraph */}
             <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              {portfolioData.personal.bio}
+              {personal.bio}
             </p>
 
             {/* Action Buttons */}
@@ -97,7 +99,7 @@ export default function Hero() {
               </a>
 
               <a
-                href={portfolioData.personal.resumeUrl}
+                href={personal.resumeUrl}
                 className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 border border-transparent hover:border-slate-700 transition-all"
               >
                 <Download className="w-4 h-4" />
@@ -145,7 +147,7 @@ export default function Hero() {
                   </p>
                   <p className="pl-4">
                     <span className="text-slate-400">name:</span>{' '}
-                    <span className="text-emerald-300">'{portfolioData.personal.name}'</span>,
+                    <span className="text-emerald-300">'{personal.name}'</span>,
                   </p>
                   <p className="pl-4">
                     <span className="text-slate-400">skills:</span> [
@@ -188,7 +190,7 @@ export default function Hero() {
 
         {/* Stats Section Bar */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {portfolioData.stats.map((stat, index) => {
+          {stats.map((stat, index) => {
             const IconComponent = iconMap[stat.icon] || Briefcase;
             return (
               <div

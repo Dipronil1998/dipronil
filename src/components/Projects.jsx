@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ExternalLink, Sparkles, Star, Eye, ArrowRight } from 'lucide-react';
 import { Github } from './Icons';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 import ProjectModal from './ProjectModal';
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
-  const projects = portfolioData.projects || [];
+  const { projects = [] } = usePortfolio();
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden scroll-mt-16">

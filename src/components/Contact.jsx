@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Mail, MapPin, Phone, Send, Sparkles, Check, Copy, MessageSquare, Clock } from 'lucide-react';
 import { Github, Linkedin, Twitter, Medium } from './Icons';
 import confetti from 'canvas-confetti';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
+import { submitContactMessage } from '../services/api';
 
 export default function Contact() {
+  const { personal = {} } = usePortfolio();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,26 +27,30 @@ export default function Contact() {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText(portfolioData.personal.email);
+    if (!personal.email) return;
+    navigator.clipboard.writeText(personal.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
   const handleCopyPhone = () => {
-    if (!portfolioData.personal.phone) return;
-    navigator.clipboard.writeText(portfolioData.personal.phone);
+    if (!personal.phone) return;
+    navigator.clipboard.writeText(personal.phone);
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2500);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
 
-    // Simulate sending delay
-    setTimeout(() => {
+    try {
+      await submitContactMessage(formData);
+    } catch (err) {
+      console.log('Contact form local fallback:', err);
+    } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
 
@@ -65,7 +71,7 @@ export default function Contact() {
         setIsSubmitted(false);
         setFormData({ name: '', email: '', subject: '', message: '' });
       }, 5000);
-    }, 1000);
+    }
   };
 
   return (
@@ -110,7 +116,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-xs text-slate-400">Email Address</div>
-                      <div className="text-sm font-semibold text-white">{portfolioData.personal.email}</div>
+                      <div className="text-sm font-semibold text-white">{personal.email}</div>
                     </div>
                   </div>
                   <button
@@ -127,7 +133,7 @@ export default function Contact() {
                 </div>
 
                 {/* Phone row if available */}
-                {portfolioData.personal.phone && (
+                {personal.phone && (
                   <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
@@ -136,10 +142,10 @@ export default function Contact() {
                       <div>
                         <div className="text-xs text-slate-400">Phone / WhatsApp</div>
                         <a
-                          href={`tel:${portfolioData.personal.phone}`}
+                          href={`tel:${personal.phone}`}
                           className="text-sm font-semibold text-white hover:text-emerald-400 transition-colors"
                         >
-                          {portfolioData.personal.phone}
+                          {personal.phone}
                         </a>
                       </div>
                     </div>
@@ -164,7 +170,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-xs text-slate-400">Location</div>
-                    <div className="text-sm font-semibold text-white">{portfolioData.personal.location}</div>
+                    <div className="text-sm font-semibold text-white">{personal.location}</div>
                   </div>
                 </div>
 
@@ -185,7 +191,7 @@ export default function Contact() {
                 <div className="text-xs text-slate-400 mb-3 font-medium">Follow & Connect:</div>
                 <div className="flex items-center gap-3">
                   <a
-                    href={portfolioData.personal.github}
+                    href={personal.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -194,7 +200,7 @@ export default function Contact() {
                     <Github className="w-5 h-5" />
                   </a>
                   <a
-                    href={portfolioData.personal.linkedin}
+                    href={personal.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -202,9 +208,9 @@ export default function Contact() {
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  {portfolioData.personal.medium && (
+                  {personal.medium && (
                     <a
-                      href={portfolioData.personal.medium}
+                      href={personal.medium}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
@@ -213,9 +219,9 @@ export default function Contact() {
                       <Medium className="w-5 h-5" />
                     </a>
                   )}
-                  {portfolioData.personal.twitter && (
+                  {personal.twitter && (
                     <a
-                      href={portfolioData.personal.twitter}
+                      href={personal.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"

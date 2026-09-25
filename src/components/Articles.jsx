@@ -1,23 +1,10 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { BookOpen, ExternalLink, Calendar, Clock, Sparkles, ArrowRight, Heart, RefreshCw } from 'lucide-react';
 import { Medium } from './Icons';
-import { portfolioData } from '../data/portfolioData';
-import { fetchMediumPosts } from '../services/api';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Articles() {
-  // Use React Query with Axios API service to fetch Medium articles
-  const {
-    data: posts = portfolioData.mediumPosts || [],
-    isLoading,
-    isFetching,
-    refetch,
-  } = useQuery({
-    queryKey: ['mediumPosts'],
-    queryFn: fetchMediumPosts,
-    initialData: portfolioData.mediumPosts,
-    staleTime: 1000 * 60 * 10, // 10 minutes cache
-  });
+  const { mediumPosts: posts = [], personal, isFetching, refetch } = usePortfolio();
 
   if (!posts || posts.length === 0) return null;
 
@@ -28,7 +15,7 @@ export default function Articles() {
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-indigo-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
@@ -73,7 +60,7 @@ export default function Articles() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-black/30" />
-                  
+
                   {/* Medium Badge */}
                   <div className="absolute top-3 left-3 flex items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-black/75 text-white border border-white/10 backdrop-blur-md">
@@ -172,10 +159,10 @@ export default function Articles() {
         </div>
 
         {/* Section Bottom CTA */}
-        {portfolioData.personal.medium && (
+        {personal?.medium && (
           <div className="mt-14 text-center">
             <a
-              href={portfolioData.personal.medium}
+              href={personal.medium}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-semibold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/40 transition-all hover:scale-[1.02] shadow-lg shadow-black/30"

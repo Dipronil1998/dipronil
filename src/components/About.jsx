@@ -1,10 +1,11 @@
 import React from 'react';
 import { Sparkles, Code2, Server, Gauge, ShieldCheck, CheckCircle2, MapPin, Mail, Calendar, Award } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const highlightIcons = [Code2, Server, Gauge, ShieldCheck];
 
 export default function About() {
+  const { about = {}, personal = {} } = usePortfolio();
   return (
     <section id="about" className="py-24 relative overflow-hidden scroll-mt-16">
       {/* Background radial glow */}
@@ -38,8 +39,8 @@ export default function About() {
               </h3>
 
               <div className="space-y-4 text-slate-300 leading-relaxed text-sm sm:text-base">
-                <p>{portfolioData.about.story}</p>
-                <p>{portfolioData.about.secondaryStory}</p>
+                <p>{about.story}</p>
+                <p>{about.secondaryStory}</p>
               </div>
 
               {/* Quick Details Chips */}
@@ -50,7 +51,7 @@ export default function About() {
                   </div>
                   <div>
                     <div className="text-xs text-slate-400">Location</div>
-                    <div className="font-semibold text-white">{portfolioData.personal.location}</div>
+                    <div className="font-semibold text-white">{personal.location}</div>
                   </div>
                 </div>
 
@@ -60,7 +61,7 @@ export default function About() {
                   </div>
                   <div>
                     <div className="text-xs text-slate-400">Email</div>
-                    <div className="font-semibold text-white truncate">{portfolioData.personal.email}</div>
+                    <div className="font-semibold text-white truncate">{personal.email}</div>
                   </div>
                 </div>
 
@@ -89,7 +90,7 @@ export default function About() {
 
           {/* Right: Key Engineering Strengths */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {portfolioData.about.highlights.map((item, idx) => {
+            {(about.highlights || []).map((item, idx) => {
               const IconComp = highlightIcons[idx % highlightIcons.length];
               return (
                 <div
