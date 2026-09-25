@@ -74,7 +74,7 @@ export const getResumeDownloadUrl = () => {
  */
 export const getMailSendUrl = () => {
   const host = getBackendHostUrl().replace(/\/$/, '');
-  return `${host}/mailsend`;
+  return `${host}/api/mailsend`;
 };
 
 /**
