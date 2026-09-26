@@ -7,7 +7,7 @@ export const SEO_CONFIG = {
   defaultTitle: 'Dipronil Das | Senior Full Stack Developer & Software Engineer',
   titleTemplate: '%s | Dipronil Das',
   defaultDescription: 'Official portfolio of Dipronil Das — Senior Full Stack Developer & Software Engineer specializing in React, Node.js, Next.js, JavaScript, and scalable web architecture. Explore projects, technical blogs, and professional certifications.',
-  siteUrl: 'https://dipronil.dev', // Can be updated to custom domain or vercel app
+  siteUrl: 'https://dipronil.pages.dev',
   siteName: 'Dipronil Das Portfolio',
   author: 'Dipronil Das',
   handle: '@dipronildas',

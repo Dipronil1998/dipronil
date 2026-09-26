@@ -48,5 +48,4 @@ User-agent: Applebot
 Allow: /
 
 # XML Sitemap location
-Sitemap: https://dipronil.dev/sitemap.xml
-Sitemap: https://dipronildas.me/sitemap.xml
+Sitemap: https://dipronil.pages.dev/sitemap.xml
