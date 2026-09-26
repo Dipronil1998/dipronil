@@ -131,8 +131,8 @@ export default function Navbar() {
           <a
             href={personal.github}
             target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub Profile"
+            rel="me noopener noreferrer"
+            aria-label="Dipronil Das GitHub Profile"
             className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition-colors"
           >
             <Github className="w-5 h-5" />
@@ -140,8 +140,8 @@ export default function Navbar() {
           <a
             href={personal.linkedin}
             target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
+            rel="me noopener noreferrer"
+            aria-label="Dipronil Das LinkedIn Profile"
             className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition-colors"
           >
             <Linkedin className="w-5 h-5" />
@@ -150,8 +150,8 @@ export default function Navbar() {
             <a
               href={personal.medium}
               target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Medium Profile"
+              rel="me noopener noreferrer"
+              aria-label="Dipronil Das Medium Articles"
               className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition-colors"
             >
               <Medium className="w-5 h-5" />
@@ -212,7 +212,8 @@ export default function Navbar() {
               <a
                 href={personal.github}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
+                aria-label="Dipronil Das GitHub Profile"
                 className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
               >
                 <Github className="w-5 h-5" />
@@ -220,7 +221,8 @@ export default function Navbar() {
               <a
                 href={personal.linkedin}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
+                aria-label="Dipronil Das LinkedIn Profile"
                 className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
               >
                 <Linkedin className="w-5 h-5" />
@@ -229,7 +231,8 @@ export default function Navbar() {
                 <a
                   href={personal.medium}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="me noopener noreferrer"
+                  aria-label="Dipronil Das Medium Articles"
                   className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
                 >
                   <Medium className="w-5 h-5" />
@@ -237,6 +240,7 @@ export default function Navbar() {
               )}
               <a
                 href={`mailto:${personal.email}`}
+                aria-label="Email Dipronil Das"
                 className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
               >
                 <Mail className="w-5 h-5" />

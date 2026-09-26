@@ -205,18 +205,18 @@ export default function Contact() {
                   <a
                     href={personal.github}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
-                    aria-label="GitHub Profile"
+                    aria-label="Dipronil Das GitHub Profile"
                   >
                     <Github className="w-5 h-5" />
                   </a>
                   <a
                     href={personal.linkedin}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
-                    aria-label="LinkedIn Profile"
+                    aria-label="Dipronil Das LinkedIn Profile"
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
@@ -224,9 +224,9 @@ export default function Contact() {
                     <a
                       href={personal.medium}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="me noopener noreferrer"
                       className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
-                      aria-label="Medium Articles"
+                      aria-label="Dipronil Das Medium Articles"
                     >
                       <Medium className="w-5 h-5" />
                     </a>
@@ -235,9 +235,9 @@ export default function Contact() {
                     <a
                       href={personal.twitter}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="me noopener noreferrer"
                       className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-cyan-500/40 transition-colors"
-                      aria-label="Twitter Profile"
+                      aria-label="Dipronil Das Twitter Profile"
                     >
                       <Twitter className="w-5 h-5" />
                     </a>

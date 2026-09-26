@@ -1,0 +1,14 @@
+{
+  "name": "Dipronil Das | Senior Full Stack Developer",
+  "short_name": "Dipronil Das",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#080c14",
+  "background_color": "#080c14",
+  "display": "standalone"
+}

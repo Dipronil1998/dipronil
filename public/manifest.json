@@ -1,0 +1,24 @@
+{
+  "name": "Dipronil Das | Senior Full Stack Developer",
+  "short_name": "Dipronil Das",
+  "description": "Official Portfolio of Dipronil Das - Senior Full Stack Developer & Software Engineer specializing in React, Node.js, and modern cloud systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080c14",
+  "theme_color": "#080c14",
+  "orientation": "portrait-primary",
+  "categories": ["portfolio", "developer", "technology", "software"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}

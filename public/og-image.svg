@@ -1,0 +1,146 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="0.5" cy="0.4" r="0.8">
+      <stop offset="0%" stop-color="#0e1726" />
+      <stop offset="100%" stop-color="#060910" />
+    </radialGradient>
+    <radialGradient id="cyanGlow" cx="0.2" cy="0.3" r="0.4">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="indigoGlow" cx="0.8" cy="0.7" r="0.5">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+    </radialGradient>
+    
+    <!-- Linear Gradients -->
+    <linearGradient id="primaryTextGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+    <linearGradient id="badgeBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#090d16" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="630" fill="url(#bgGlow)" />
+  <rect width="1200" height="630" fill="url(#cyanGlow)" />
+  <rect width="1200" height="630" fill="url(#indigoGlow)" />
+
+  <!-- Outer Glass Frame Border -->
+  <rect x="24" y="24" width="1152" height="582" rx="24" stroke="#1e293b" stroke-width="2" fill="none" />
+
+  <!-- Ambient Grid Lines -->
+  <g opacity="0.1" stroke="#38bdf8" stroke-width="1">
+    <line x1="80" y1="0" x2="80" y2="630" />
+    <line x1="240" y1="0" x2="240" y2="630" />
+    <line x1="400" y1="0" x2="400" y2="630" />
+    <line x1="560" y1="0" x2="560" y2="630" />
+    <line x1="720" y1="0" x2="720" y2="630" />
+    <line x1="880" y1="0" x2="880" y2="630" />
+    <line x1="1040" y1="0" x2="1040" y2="630" />
+    
+    <line x1="0" y1="100" x2="1200" y2="100" />
+    <line x1="0" y1="200" x2="1200" y2="200" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="500" x2="1200" y2="500" />
+  </g>
+
+  <!-- Status Availability Pill -->
+  <g transform="translate(80, 75)">
+    <rect width="280" height="42" rx="21" fill="#0f172a" stroke="url(#badgeBorder)" stroke-width="1.5" />
+    <circle cx="24" cy="21" r="6" fill="#10b981" />
+    <text x="42" y="27" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600">Available for Opportunities</text>
+  </g>
+
+  <!-- Brand Name Heading -->
+  <text x="80" y="195" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="800" letter-spacing="-1.5">
+    Dipronil Das
+  </text>
+
+  <!-- Title / Tagline -->
+  <text x="80" y="255" fill="url(#primaryTextGrad)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="700">
+    Senior Full Stack Developer &amp; Software Engineer
+  </text>
+
+  <!-- Description paragraph -->
+  <text x="80" y="315" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="400">
+    Crafting high-performance web applications, scalable cloud backends,
+  </text>
+  <text x="80" y="348" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="400">
+    and seamless digital user experiences with modern React &amp; Node.js.
+  </text>
+
+  <!-- Tech Stack Pills -->
+  <g transform="translate(80, 400)">
+    <!-- Pill 1: React.js -->
+    <g transform="translate(0, 0)">
+      <rect width="110" height="40" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+      <text x="18" y="25" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="700">⚛ React</text>
+    </g>
+    <!-- Pill 2: Node.js -->
+    <g transform="translate(125, 0)">
+      <rect width="115" height="40" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+      <text x="18" y="25" fill="#4ade80" font-family="monospace" font-size="14" font-weight="700">⬢ Node.js</text>
+    </g>
+    <!-- Pill 3: JavaScript / TS -->
+    <g transform="translate(255, 0)">
+      <rect width="140" height="40" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+      <text x="18" y="25" fill="#facc15" font-family="monospace" font-size="14" font-weight="700">⚡ JavaScript</text>
+    </g>
+    <!-- Pill 4: Next.js -->
+    <g transform="translate(410, 0)">
+      <rect width="110" height="40" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+      <text x="18" y="25" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">▲ Next.js</text>
+    </g>
+    <!-- Pill 5: Tailwind CSS -->
+    <g transform="translate(535, 0)">
+      <rect width="130" height="40" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+      <text x="18" y="25" fill="#38bdf8" font-family="monospace" font-size="14" font-weight="700">🎨 Tailwind</text>
+    </g>
+  </g>
+
+  <!-- Right Side Interactive Stats Card -->
+  <g transform="translate(770, 110)">
+    <rect width="350" height="380" rx="24" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="2" filter="drop-shadow(0 20px 30px rgba(0,0,0,0.5))" />
+    
+    <!-- Header of Code Box -->
+    <rect x="0" y="0" width="350" height="48" rx="24" fill="#090d16" />
+    <circle cx="28" cy="24" r="6" fill="#ef4444" />
+    <circle cx="48" cy="24" r="6" fill="#eab308" />
+    <circle cx="68" cy="24" r="6" fill="#22c55e" />
+    <text x="96" y="29" fill="#64748b" font-family="monospace" font-size="13">developer.config.json</text>
+
+    <!-- Code Content Inside Box -->
+    <text x="28" y="90" fill="#cbd5e1" font-family="monospace" font-size="14">{</text>
+    <text x="44" y="122" fill="#38bdf8" font-family="monospace" font-size="13">"engineer": <tspan fill="#facc15">"Dipronil Das"</tspan>,</text>
+    <text x="44" y="154" fill="#38bdf8" font-family="monospace" font-size="13">"location": <tspan fill="#facc15">"Kolkata, IN"</tspan>,</text>
+    <text x="44" y="186" fill="#38bdf8" font-family="monospace" font-size="13">"experience": <tspan fill="#facc15">"5+ Years"</tspan>,</text>
+    <text x="44" y="218" fill="#38bdf8" font-family="monospace" font-size="13">"passion": <tspan fill="#facc15">"Clean Architecture"</tspan>,</text>
+    <text x="44" y="250" fill="#38bdf8" font-family="monospace" font-size="13">"status": <tspan fill="#4ade80">"Ready to Build"</tspan></text>
+    <text x="28" y="282" fill="#cbd5e1" font-family="monospace" font-size="14">}</text>
+
+    <!-- Bottom verification stamp -->
+    <g transform="translate(28, 310)">
+      <rect width="294" height="46" rx="12" fill="#090d16" stroke="#1e293b" stroke-width="1" />
+      <text x="18" y="28" fill="#38bdf8" font-family="monospace" font-size="13">🚀 dipronil.dev</text>
+      <text x="180" y="28" fill="#64748b" font-family="monospace" font-size="12">github.com/Dipronil1998</text>
+    </g>
+  </g>
+
+  <!-- Bottom Bar with Location & Email -->
+  <g transform="translate(80, 520)">
+    <text x="0" y="20" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500">📍 Kolkata, India</text>
+    <text x="180" y="20" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500">✉ dipronildas.net@gmail.com</text>
+    <text x="500" y="20" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500">★ 100% Client Satisfaction</text>
+  </g>
+</svg>

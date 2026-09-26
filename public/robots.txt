@@ -1,0 +1,52 @@
+# https://www.robotstxt.org/robotstxt.html
+# Dipronil Das Portfolio - Robots Configuration for Search Engines
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Explicit Bot Allow rules for top search engines & social indexers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /*.png$
+Allow: /*.svg$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# XML Sitemap location
+Sitemap: https://dipronil.dev/sitemap.xml
+Sitemap: https://dipronildas.me/sitemap.xml

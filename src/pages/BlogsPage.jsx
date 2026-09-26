@@ -25,6 +25,7 @@ import {
 import { Medium } from '../components/Icons';
 import { fetchBlogs } from '../services/api';
 import { usePortfolio } from '../context/PortfolioContext';
+import SEO from '../components/SEO';
 
 export default function BlogsPage() {
   const { personal } = usePortfolio();
@@ -96,6 +97,12 @@ export default function BlogsPage() {
 
   return (
     <div className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-[#080c14] text-slate-100">
+      <SEO 
+        title="Technical Articles & Blogs"
+        description="Read in-depth software engineering articles, web architecture tutorials, React tips, and technical writeups by Dipronil Das."
+        keywords="Dipronil Das Blogs, Technical Writing, React Tutorials, Full Stack Articles, Web Development Guides, Medium Dipronil Das"
+        breadcrumbs={[{ name: 'Blogs', url: '/blogs' }]}
+      />
       {/* Background Lighting Effects */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none -z-10" />

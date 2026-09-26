@@ -14,6 +14,7 @@ import CertificatesPage from './pages/CertificatesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import SEO from './components/SEO';
 
 import { PortfolioProvider } from './context/PortfolioContext';
 
@@ -41,6 +42,11 @@ function ScrollToTop() {
 function PortfolioHome() {
   return (
     <main className="flex-1">
+      <SEO 
+        title="Dipronil Das | Senior Full Stack Developer & Software Engineer"
+        description="Official portfolio of Dipronil Das — Senior Full Stack Developer & Software Engineer specializing in React, Node.js, Next.js, and modern cloud architecture."
+        keywords="Dipronil Das, Full Stack Developer, Software Engineer, React Developer, Node.js, Web Development, Kolkata, Portfolio"
+      />
       <Hero />
       <About />
       <Skills />

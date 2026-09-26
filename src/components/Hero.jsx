@@ -78,6 +78,7 @@ export default function Hero() {
               </p>
               <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-tight">
                 {personal.name}
+                <span className="sr-only"> — Senior Full Stack Developer &amp; Software Engineer Portfolio</span>
               </h1>
               <div className="h-12 flex items-center justify-center lg:justify-start">
                 <span className="text-xl sm:text-3xl font-semibold text-slate-300">

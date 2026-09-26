@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { fetchCertificates } from '../services/api';
 import { usePortfolio } from '../context/PortfolioContext';
+import SEO from '../components/SEO';
 
 export default function CertificatesPage() {
   const { personal } = usePortfolio();
@@ -107,6 +108,12 @@ export default function CertificatesPage() {
 
   return (
     <div className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-[#080c14] text-slate-100">
+      <SEO 
+        title="Certifications & Badges"
+        description="View professional certifications, accredited licenses, and technical credentials earned by Dipronil Das across cloud, full stack development, and computer science."
+        keywords="Dipronil Das Certifications, Developer Credentials, Coursera Certificates, Udemy Badges, Verified Skills Dipronil"
+        breadcrumbs={[{ name: 'Certificates', url: '/certificates' }]}
+      />
       {/* Background Lighting Effects */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none -z-10" />
