@@ -2,7 +2,6 @@
  * Environment-aware API Configuration Helper
  * 
 
-
 /**
  * Checks if the current app is running on localhost / development
  * @returns {boolean}
